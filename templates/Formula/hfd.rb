@@ -9,5 +9,6 @@ class StableDiffusionCpp < Formula
 
   def install
     bin.install "hfd.sh" => "hfd"
+    system "chmod", "a+x", "#{bin}/hfd"
   end
 end
