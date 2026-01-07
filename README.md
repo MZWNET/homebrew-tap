@@ -1,5 +1,5 @@
-# homebrew-114514
+# MZWNET/homebrew-tap
 
-Run `brew tap scientificworld/114514` to install this tap.
+Run `brew tap MZWNET/tap` to install this tap.
 
-Or you can use gitee mirror: `brew tap --custom-remote scientificworld/114514 https://gitee.com/scientificworld/homebrew-114514`
+Super thx to sci!

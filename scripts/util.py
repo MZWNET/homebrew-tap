@@ -1,6 +1,8 @@
 from pathlib import Path
 import time
 import re
+import hashlib
+import requests
 
 def update_util(name, **kwargs):
     with open(Path("templates") / (name + ".rb"), "r") as file:
@@ -26,3 +28,14 @@ def acquire_util(name, key):
         return result.groups()[0]
     else:
         return None
+
+def sha256_util(url):
+    sha256_hash = hashlib.sha256()
+    try:
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            for chunk in r.iter_content(chunk_size=4096):
+                sha256_hash.update(chunk)
+    except requests.exceptions.RequestException:
+        raise RuntimeError("Connection error while downloading")
+    return sha256_hash.hexdigest()

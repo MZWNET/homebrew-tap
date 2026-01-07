@@ -1,25 +1,17 @@
 import requests
-from util import update_util, retry_util, acquire_util
+import subprocess
+from util import update_util, retry_util, acquire_util, sha256_util
 
-# Icalingua++
-data = retry_util(lambda: requests.get("https://api.github.com/repos/Icalingua-plus-plus/Icalingua-plus-plus/releases/latest").json())
-if data["name"] != acquire_util("Casks/icalingua-plus-plus", "version"):
-    update_util("Casks/icalingua-plus-plus", ver=data["name"])
-
-# ClashX Meta
-data = retry_util(lambda: requests.get("https://api.github.com/repos/MetaCubeX/ClashX.Meta/releases/latest").json())
-if data["name"] != acquire_util("Casks/clashx-meta", "version"):
-    update_util("Casks/clashx-meta", ver=data["name"])
-
-# biliup-rs
-data = retry_util(lambda: requests.get("https://api.github.com/repos/biliup/biliup-rs/releases/latest").json())
-if data["tag_name"][0] == "v":
-    version = data["tag_name"][1:]
-    if version != acquire_util("Formula/biliup-rs", "version"):
-        update_util("Formula/biliup-rs", ver=version)
-
-# naiveproxy
-data = retry_util(lambda: requests.get("https://api.github.com/repos/klzgrad/naiveproxy/releases/latest").json())
-version = data["tag_name"][1:]
-if version != acquire_util("Formula/naiveproxy", "version"):
-    update_util("Formula/naiveproxy", ver=version)
+# stable-diffusion.cpp
+data = retry_util(lambda: requests.get("https://api.github.com/repos/leejet/stable-diffusion.cpp/releases/latest").json())
+if True:
+    version = data["tag_name"]
+    url = ""
+    for asset in data["assets"]:
+        if "macOS" in asset["name"]:
+            url = asset["browser_download_url"]
+            break
+    sha256 = retry_util(lambda: sha256_util(url))
+    print(f"stable-diffusion.cpp: {version} {url} {sha256}")
+    if version != acquire_util("Formula/stable-diffusion.cpp", "version"):
+        update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
