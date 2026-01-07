@@ -1,16 +1,21 @@
 import requests
+import os
 from util import update_util, retry_util, acquire_util, sha256_util, git_util
 
+token = os.environ.get("GITHUB_TOKEN")
+headers = {"Authorization": f"Bearer {token}"} if token else {}
+
 # stable-diffusion.cpp
-data = retry_util(lambda: requests.get("https://api.github.com/repos/leejet/stable-diffusion.cpp/releases/latest").json())
-if data["tag_name"] != acquire_util("Formula/stable-diffusion.cpp", "version"):
-    url = ""
-    for asset in data["assets"]:
-        if "macOS" in asset["name"]:
-            url = asset["browser_download_url"]
-            break
+data = retry_util(lambda: requests.get("https://api.github.com/repos/MZWNET/actions/releases?per_page=50", headers=headers).json())
+for release in data:
+    if "sd-master" in release["tag_name"]:
+        data = release
+        break
+version = data["tag_name"].replace("sd-master-", "")
+if version != acquire_util("Formula/stable-diffusion.cpp", "version"):
+    url = f"https://github.com/MZWNET/actions/releases/download/sd-master-{version}/sd-master-{version}-bin-macos-metal-arm64.zip"
     sha256 = retry_util(lambda: sha256_util(url))
-    update_util("Formula/stable-diffusion.cpp", ver=data["tag_name"], url=url, sha256=sha256)
+    update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
 
 # hfd
 data = retry_util(lambda: git_util(acquire_util("Formula/hfd", "head"), "hfd"))
