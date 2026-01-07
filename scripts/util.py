@@ -3,6 +3,7 @@ import time
 import re
 import hashlib
 import requests
+import subprocess
 
 def update_util(name, **kwargs):
     with open(Path("templates") / (name + ".rb"), "r") as file:
@@ -39,3 +40,13 @@ def sha256_util(url):
     except requests.exceptions.RequestException:
         raise RuntimeError("Connection error while downloading")
     return sha256_hash.hexdigest()
+
+def git_util(url, name):
+    try:
+        subprocess.run(["git", "clone", url, name, "--depth", "1"], check=True)
+        ver = subprocess.check_output(["git", "rev-parse", "--short=7", "HEAD"], cwd=name, text=True).strip()
+        rev = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=name, text=True).strip()
+        subprocess.run(["rm", "-rf", name], check=True)
+        return { "version": ver, "revision": rev }
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Clone failed: {e}")

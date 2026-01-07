@@ -1,6 +1,6 @@
 class StableDiffusionCpp < Formula
   version "master-463-e7e83ed"
-  desc "Diffusion model(SD,Flux,Wan,Qwen Image,Z-Image,...) inference in pure C/C++ "
+  desc "Diffusion model(SD,Flux,Wan,Qwen Image,Z-Image,...) inference in pure C/C++"
   homepage "https://github.com/leejet/stable-diffusion.cpp"
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
