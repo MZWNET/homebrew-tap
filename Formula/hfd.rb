@@ -11,4 +11,8 @@ class Hfd < Formula
     bin.install "hfd.sh" => "hfd"
     system "chmod", "a+x", "#{bin}/hfd"
   end
+
+  test do
+    system "#{bin}/hfd"
+  end
 end
