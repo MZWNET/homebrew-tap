@@ -1,4 +1,4 @@
-class StableDiffusionCpp < Formula
+class Hfd < Formula
   version "ee66e00"
   desc "🤗Huggingface Model Downloader"
   homepage "https://gist.github.com/padeoe/697678ab8e528b85a2a7bddafea1fa4f"
