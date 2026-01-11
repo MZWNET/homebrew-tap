@@ -6,12 +6,12 @@ token = os.environ.get("GITHUB_TOKEN")
 headers = {"Authorization": f"Bearer {token}"} if token else {}
 
 # stable-diffusion.cpp
-data = retry_util(lambda: requests.get("https://api.github.com/repos/MZWNET/actions/releases?per_page=50", headers=headers).json())
+data = retry_util(lambda: requests.get("https://api.github.com/repos/MZWNET/actions/releases?per_page=100", headers=headers).json())
 for release in data:
     if "sd-master" in release["tag_name"]:
         data = release
         break
-version = data["tag_name"].replace("sd-master-", "")
+version = data["tag_name"][-7:]
 if version != acquire_util("Formula/stable-diffusion.cpp", "version"):
     url = f"https://github.com/MZWNET/actions/releases/download/sd-master-{version}/sd-master-{version}-bin-macos-metal-arm64.zip"
     sha256 = retry_util(lambda: sha256_util(url))
