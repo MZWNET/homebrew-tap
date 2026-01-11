@@ -12,7 +12,5 @@ class StableDiffusionCpp < Formula
     libexec.install Dir["*"]
     bin.install_symlink libexec/"sd-cli"
     bin.install_symlink libexec/"sd-server"
-    system "/usr/bin/install_name_tool", "-add_rpath", "@loader_path", "#{bin}/sd-cli"
-    system "/usr/bin/install_name_tool", "-add_rpath", "@loader_path", "#{bin}/sd-server"
   end
 end
