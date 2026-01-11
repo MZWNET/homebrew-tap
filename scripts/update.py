@@ -13,7 +13,7 @@ for release in data:
         break
 version = data["tag_name"][-7:]
 if version != acquire_util("Formula/stable-diffusion.cpp", "version"):
-    url = f"https://github.com/MZWNET/actions/releases/download/sd-master-{version}/sd-master-{version}-bin-macos-metal-arm64.zip"
+    url = f"https://github.com/MZWNET/actions/releases/download/{data["tag_name"]}/{data["tag_name"]}-bin-macos-metal-arm64.zip"
     sha256 = retry_util(lambda: sha256_util(url))
     update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
 
