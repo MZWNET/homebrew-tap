@@ -1,12 +1,12 @@
 class StableDiffusionCpp < Formula
-  version "7010bb4"
+  version "9565c7f"
   desc "Diffusion model(SD,Flux,Wan,Qwen Image,Z-Image,...) inference in pure C/C++"
   homepage "https://github.com/leejet/stable-diffusion.cpp"
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
 
-  url "https://github.com/MZWNET/actions/releases/download/sd-master-471-7010bb4/sd-master-471-7010bb4-bin-macos-metal-arm64.zip"
-  sha256 "9cce3f47d4ba9673771103197698b83bdb97892219546f00481d10a7fd6c65cb"
+  url "https://github.com/MZWNET/actions/releases/download/sd-master-473-9565c7f/sd-master-473-9565c7f-bin-macos-metal-arm64.zip"
+  sha256 "a15ae1985c34abbd9a914a1e9bd7e32578993dcc504a8559e01a8640cad6875c"
 
   def install
     libexec.install Dir["*"]
