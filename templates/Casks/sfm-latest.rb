@@ -13,6 +13,6 @@ cask "sfm-latest" do
     pkg "SFM-#{{ver}}-Apple.pkg"
 
     uninstall   quit:       "io.nekohasekai.sfavt.standalone",
-                login_item: "SFM"
+                login_item: "SFM",
                 pkgutil:    "io.nekohasekai.sfavt.standalone"
 end
