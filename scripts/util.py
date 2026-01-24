@@ -4,6 +4,7 @@ import re
 import hashlib
 import requests
 import subprocess
+import shutil
 
 def update_util(name, **kwargs):
     with open(Path("templates") / (name + ".rb"), "r") as file:
@@ -28,7 +29,7 @@ def acquire_util(name, key):
     if result:
         return result.groups()[0]
     else:
-        return None
+        return ""
 
 def sha256_util(url):
     sha256_hash = hashlib.sha256()
@@ -42,8 +43,10 @@ def sha256_util(url):
     return sha256_hash.hexdigest()
 
 def git_util(url, name):
+    if Path(f"repo/{name}").exists():
+        shutil.rmtree(f"repo/{name}")
     try:
-        subprocess.run(["git", "clone", url, f"repo/{name}", "--depth", "1"], check=True)
+        subprocess.run(["git", "clone", url, f"repo/{name}"], check=True)
         historyCount = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=f"repo/{name}", text=True).strip()
         shortRev = subprocess.check_output(["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True).strip()
         ver = f"0.0.{historyCount}_{shortRev}"

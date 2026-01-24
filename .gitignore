@@ -1,4 +1,5 @@
-undone
 __pycache__
 repo/
 .DS_Store
+.venv
+*.pyc

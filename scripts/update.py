@@ -23,3 +23,19 @@ if data["version"] != acquire_util("Formula/hfd", "version"):
     url = acquire_util("Formula/hfd", "homepage") + f"/raw/{data['revision']}/hfd.sh"
     sha256 = retry_util(lambda: sha256_util(url))
     update_util("Formula/hfd", ver=data["version"], url=url, sha256=sha256)
+
+# sing-box-latest
+data = retry_util(lambda: requests.get("https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1", headers=headers).json())[0]
+version = data["tag_name"].replace("v", "")
+if version != acquire_util("Formula/sing-box-latest", "version"):
+    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/sing-box-{version}-darwin-arm64.tar.gz"
+    sha256 = retry_util(lambda: sha256_util(url))
+    update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
+
+# SFM-latest
+data = retry_util(lambda: requests.get("https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1", headers=headers).json())[0]
+version = data["tag_name"].replace("v", "")
+if version != acquire_util("Casks/sfm-latest", "version"):
+    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
+    sha256 = retry_util(lambda: sha256_util(url))
+    update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
