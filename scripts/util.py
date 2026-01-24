@@ -44,7 +44,9 @@ def sha256_util(url):
 def git_util(url, name):
     try:
         subprocess.run(["git", "clone", url, f"repo/{name}", "--depth", "1"], check=True)
-        ver = subprocess.check_output(["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True).strip()
+        historyCount = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=f"repo/{name}", text=True).strip()
+        shortRev = subprocess.check_output(["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True).strip()
+        ver = f"0.0.{historyCount}_{shortRev}"
         rev = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=f"repo/{name}", text=True).strip()
         return { "version": ver, "revision": rev }
     except subprocess.CalledProcessError as e:

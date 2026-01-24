@@ -11,7 +11,7 @@ for release in data:
     if "sd-master" in release["tag_name"]:
         data = release
         break
-version = data["tag_name"][-7:]
+version = data["tag_name"].replace("sd-master-", "0.0.").replace("-", "_")
 if version != acquire_util("Formula/stable-diffusion.cpp", "version"):
     url = f"https://github.com/MZWNET/actions/releases/download/{data["tag_name"]}/{data["tag_name"]}-bin-macos-metal-arm64.zip"
     sha256 = retry_util(lambda: sha256_util(url))
