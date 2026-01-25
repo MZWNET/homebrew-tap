@@ -3,3 +3,4 @@ repo/
 .DS_Store
 .venv
 *.pyc
+.ruff_cache

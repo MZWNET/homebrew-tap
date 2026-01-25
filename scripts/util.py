@@ -5,16 +5,21 @@ import hashlib
 import requests
 import subprocess
 import shutil
+from typing import Callable, TypeVar
 
-def update_util(name, **kwargs):
+T = TypeVar("T")
+
+
+def update_util(name: str, **kwargs: str) -> None:
     with open(Path("templates") / (name + ".rb"), "r") as file:
-        content = file.read()
+        content: str = file.read()
     for key, value in kwargs.items():
         content = content.replace("#{{" + key + "}}", value)
     with open(name + ".rb", "w") as file:
         file.write(content)
 
-def retry_util(func):
+
+def retry_util(func: Callable[[], T]) -> T:
     for _ in range(3):
         try:
             return func()
@@ -22,16 +27,20 @@ def retry_util(func):
             time.sleep(5)
     raise RuntimeError("Reached maximum number of retries")
 
-def acquire_util(name, key):
+
+def acquire_util(name: str, key: str) -> str:
+    if not Path(name + ".rb").exists():
+        return ""
     with open(name + ".rb", "r") as file:
-        content = file.read()
-    result = re.search(rf'{key}\s+"(.*)"', content)
+        content: str = file.read()
+    result: re.Match[str] | None = re.search(rf'{key}\s+"(.*)"', content)
     if result:
         return result.groups()[0]
     else:
         return ""
 
-def sha256_util(url):
+
+def sha256_util(url: str) -> str:
     sha256_hash = hashlib.sha256()
     try:
         with requests.get(url, stream=True) as r:
@@ -42,15 +51,22 @@ def sha256_util(url):
         raise RuntimeError("Connection error while downloading")
     return sha256_hash.hexdigest()
 
-def git_util(url, name):
+
+def git_util(url: str, name: str) -> dict[str, str]:
     if Path(f"repo/{name}").exists():
         shutil.rmtree(f"repo/{name}")
     try:
         subprocess.run(["git", "clone", url, f"repo/{name}"], check=True)
-        historyCount = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=f"repo/{name}", text=True).strip()
-        shortRev = subprocess.check_output(["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True).strip()
-        ver = f"0.0.{historyCount}_{shortRev}"
-        rev = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=f"repo/{name}", text=True).strip()
-        return { "version": ver, "revision": rev }
+        historyCount: str = subprocess.check_output(
+            ["git", "rev-list", "--count", "HEAD"], cwd=f"repo/{name}", text=True
+        ).strip()
+        shortRev: str = subprocess.check_output(
+            ["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True
+        ).strip()
+        ver: str = f"0.0.{historyCount}_{shortRev}"
+        rev: str = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=f"repo/{name}", text=True
+        ).strip()
+        return {"version": ver, "revision": rev}
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Clone failed: {e}")
