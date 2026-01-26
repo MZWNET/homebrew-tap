@@ -4,9 +4,9 @@ class StableDiffusionCpp < Formula
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
 
-  version "0.0.484_fa61ea7"
-  url "https://github.com/MZWNET/actions/releases/download/sd-master-484-fa61ea7/sd-master-484-fa61ea7-bin-macos-metal-arm64.zip"
-  sha256 "d5b3c9fbbf9f6107dadbda3ae45b23aa7ed106f61153b4adf26ea507fee7ea94"
+  version "0.0.487_43e829f"
+  url "https://github.com/MZWNET/actions/releases/download/sd-master-487-43e829f/sd-master-487-43e829f-bin-macos-metal-arm64.zip"
+  sha256 "9fd233510c5b06411d350a3559f6647a453d94729380c09134d65fae9fa69492"
 
   def install
     libexec.install Dir["*"]
