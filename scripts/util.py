@@ -5,7 +5,7 @@ import hashlib
 import requests
 import subprocess
 import shutil
-from typing import Callable, TypeVar
+from typing import Any, Callable, TypeVar
 
 T = TypeVar("T")
 
@@ -50,6 +50,18 @@ def sha256_util(url: str) -> str:
     except requests.exceptions.RequestException:
         raise RuntimeError("Connection error while downloading")
     return sha256_hash.hexdigest()
+
+
+def github_sha256_util(release: dict[str, Any], url: str) -> str:
+    sha256: str = ""
+    for asset in release["assets"]:
+        if asset["browser_download_url"] == url:
+            if asset["digest"] and asset["digest"][:7] == "sha256:":
+                sha256 = asset["digest"][7:]
+            break
+    if not sha256:
+        sha256 = retry_util(lambda: sha256_util(url))
+    return sha256
 
 
 def git_util(url: str, name: str) -> dict[str, str]:
