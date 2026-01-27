@@ -6,7 +6,7 @@ class StableDiffusionCpp < Formula
 
   version "0.0.487_43e829f"
   url "https://github.com/MZWNET/actions/releases/download/sd-master-487-43e829f/sd-master-487-43e829f-bin-macos-metal-arm64.zip"
-  sha256 "9fd233510c5b06411d350a3559f6647a453d94729380c09134d65fae9fa69492"
+  sha256 "c554c948bfcdffeebfb1a89d86411444fabd4b895ebf20df905de8ef5952b2d6"
 
   def install
     libexec.install Dir["*"]
