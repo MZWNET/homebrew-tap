@@ -1,6 +1,7 @@
 import requests
 import os
 from typing import Any
+from concurrent.futures import ThreadPoolExecutor
 from util import update_util, retry_util, acquire_util, sha256_util, git_util
 
 token: str | None = os.environ.get("GITHUB_TOKEN")
@@ -31,10 +32,7 @@ def update_hfd() -> None:
         lambda: git_util(acquire_util("Formula/hfd", "head"), "hfd")
     )
     if release["version"] != acquire_util("Formula/hfd", "version"):
-        url = (
-            acquire_util("Formula/hfd", "homepage")
-            + f"/raw/{release["revision"]}/hfd.sh"
-        )
+        url = f"{acquire_util("Formula/hfd", "homepage")}/raw/{release["revision"]}/hfd.sh"
         sha256 = retry_util(lambda: sha256_util(url))
         update_util("Formula/hfd", ver=release["version"], url=url, sha256=sha256)
 
@@ -80,8 +78,14 @@ def update_bifrost() -> None:
 
 
 if __name__ == "__main__":
-    update_stable_diffusion_cpp()
-    update_hfd()
-    update_sing_box_latest()
-    update_sfm_latest()
-    update_bifrost()
+    tasks = [
+        update_stable_diffusion_cpp,
+        update_hfd,
+        update_sing_box_latest,
+        update_sfm_latest,
+        update_bifrost,
+    ]
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(task) for task in tasks]
+        for future in futures:
+            future.result()
