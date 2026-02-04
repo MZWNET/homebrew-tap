@@ -30,10 +30,7 @@ def update_stable_diffusion_cpp() -> None:
     version = release["tag_name"].replace("sd-master-", "0.0.").replace("-", "_")
     url = f"https://github.com/MZWNET/actions/releases/download/{release["tag_name"]}/{release["tag_name"]}-bin-macos-metal-arm64.zip"
     sha256 = github_sha256_util(release, url)
-    if version != acquire_util(
-        "Formula/stable-diffusion.cpp", "version"
-    ) or sha256 != acquire_util("Formula/stable-diffusion.cpp", "sha256"):
-        update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
+    update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
 
 
 def update_hfd() -> None:
@@ -42,10 +39,7 @@ def update_hfd() -> None:
     )
     url = f"{acquire_util("Formula/hfd", "homepage")}/raw/{release["revision"]}/hfd.sh"
     sha256 = retry_util(lambda: sha256_util(url))
-    if release["version"] != acquire_util(
-        "Formula/hfd", "version"
-    ) or sha256 != acquire_util("Formula/hfd", "sha256"):
-        update_util("Formula/hfd", ver=release["version"], url=url, sha256=sha256)
+    update_util("Formula/hfd", ver=release["version"], url=url, sha256=sha256)
 
 
 def update_sing_box_latest() -> None:
@@ -58,10 +52,7 @@ def update_sing_box_latest() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/sing-box-{version}-darwin-arm64.tar.gz"
     sha256 = github_sha256_util(release, url)
-    if version != acquire_util(
-        "Formula/sing-box-latest", "version"
-    ) or sha256 != acquire_util("Formula/sing-box-latest", "sha256"):
-        update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
+    update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
 
 
 def update_sfm_latest() -> None:
@@ -74,10 +65,7 @@ def update_sfm_latest() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
     sha256 = github_sha256_util(release, url)
-    if version != acquire_util("Casks/sfm-latest", "version") or sha256 != acquire_util(
-        "Casks/sfm-latest", "sha256"
-    ):
-        update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
+    update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
 
 
 def update_bifrost() -> None:
@@ -88,10 +76,25 @@ def update_bifrost() -> None:
     )
     url = f"https://github.com/zacharee/SamloaderKotlin/releases/download/{release["tag_name"]}/bifrost-{release["tag_name"]}-mac-aarch64.zip"
     sha256 = github_sha256_util(release, url)
-    if release["tag_name"] != acquire_util(
-        "Casks/bifrost", "version"
-    ) or sha256 != acquire_util("Casks/bifrost", "sha256"):
-        update_util("Casks/bifrost", ver=release["tag_name"], url=url, sha256=sha256)
+    update_util("Casks/bifrost", ver=release["tag_name"], url=url, sha256=sha256)
+
+
+def update_bewlycat() -> None:
+    releases: list[dict[str, Any]] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/MZWNET/actions/releases?per_page=100",
+            headers=headers,
+        ).json()
+    )
+    release: dict[str, Any] = {}
+    for r in releases:
+        if "bewlycat-" in r["tag_name"]:
+            release = r
+            break
+    version = release["tag_name"].replace("bewlycat-v", "")
+    url = f"https://github.com/MZWNET/actions/releases/download/bewlycat-v{version}/BewlyCat-v{version}.dmg"
+    sha256 = github_sha256_util(release, url)
+    update_util("Casks/bewlycat", ver=version, url=url, sha256=sha256)
 
 
 if __name__ == "__main__":
@@ -101,6 +104,7 @@ if __name__ == "__main__":
         update_sing_box_latest,
         update_sfm_latest,
         update_bifrost,
+        update_bewlycat,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
