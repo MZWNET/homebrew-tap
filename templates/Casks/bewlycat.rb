@@ -8,4 +8,9 @@ cask "bewlycat" do
     sha256 "#{{sha256}}"
 
     app "BewlyCat.app"
+
+    postflight do
+        system_command "/usr/bin/xattr", args: ["-cr", "/Applications/BewlyCat.app"]
+        system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/BewlyCat.app"]
+    end
 end
