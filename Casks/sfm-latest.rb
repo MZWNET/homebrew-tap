@@ -3,10 +3,10 @@ cask "sfm-latest" do
     desc "Standalone client for sing-box, the universal proxy platform"
     homepage "https://sing-box.sagernet.org/"
 
-    version "1.13.0-rc.3"
-    url "https://github.com/SagerNet/sing-box/releases/download/v1.13.0-rc.3/SFM-1.13.0-rc.3-Apple.pkg",
+    version "1.13.0-rc.4"
+    url "https://github.com/SagerNet/sing-box/releases/download/v1.13.0-rc.4/SFM-1.13.0-rc.4-Apple.pkg",
         verified: "github.com/SagerNet/sing-box/"
-    sha256 "255d119510a7dcab4f69264f5038cc3dd303bc79b95ea7a07bf3c14aa18a56a0"
+    sha256 "427d648e340a679fc86768b731c6dbdba40f7f43b3f3f396e3799976e74fde73"
 
     depends_on macos: ">= :ventura"
 

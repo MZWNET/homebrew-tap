@@ -4,9 +4,9 @@ class SingBoxLatest < Formula
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "dev-next"
 
-  version "1.13.0-rc.3"
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.13.0-rc.3/sing-box-1.13.0-rc.3-darwin-arm64.tar.gz"
-  sha256 "32d491f6399b02b489730723faf9da87dcbf468a03f3511816b7babf17bab410"
+  version "1.13.0-rc.4"
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.13.0-rc.4/sing-box-1.13.0-rc.4-darwin-arm64.tar.gz"
+  sha256 "667c1a5c689b7cfe83e2f5113329d4b399d8ed52b43083c72b17c3dc61b3d3ab"
 
   def install
     bin.install "sing-box"
