@@ -97,6 +97,18 @@ def update_bewlycat() -> None:
     update_util("Casks/bewlycat", ver=version, url=url, sha256=sha256)
 
 
+def update_xmcl() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/Voxelum/x-minecraft-launcher/releases/latest"
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/Voxelum/x-minecraft-launcher/releases/download/v{version}/xmcl-{version}-arm64.dmg"
+    sha256 = github_sha256_util(release, url)
+    update_util("Casks/xmcl", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -105,6 +117,7 @@ if __name__ == "__main__":
         update_sfm_latest,
         update_bifrost,
         update_bewlycat,
+        update_xmcl,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
