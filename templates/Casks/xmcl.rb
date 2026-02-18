@@ -14,6 +14,11 @@ cask "xmcl" do
 
     app "X Minecraft Launcher.app"
 
+    postflight do
+        system_command "/usr/bin/xattr", args: ["-cr", "/Applications/X Minecraft Launcher.app"]
+        system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/X Minecraft Launcher.app"]
+    end
+
     zap trash: [
         "~/Applications/X Minecraft Launcher.app",
         "~/Library/Application Support/xmcl",
