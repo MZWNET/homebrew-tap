@@ -23,6 +23,8 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Update packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update.py
 
       - name: Commit
