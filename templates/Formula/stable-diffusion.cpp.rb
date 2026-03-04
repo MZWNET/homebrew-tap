@@ -1,12 +1,11 @@
 class StableDiffusionCpp < Formula
   desc "Diffusion model(SD,Flux,Wan,Qwen Image,Z-Image,...) inference in pure C/C++"
   homepage "https://github.com/leejet/stable-diffusion.cpp"
+  url "#{{url}}"
+  version "#{{ver}}"
+  sha256 "#{{sha256}}"
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
-
-  version "#{{ver}}"
-  url "#{{url}}"
-  sha256 "#{{sha256}}"
 
   def install
     libexec.install Dir["*"]

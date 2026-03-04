@@ -1,18 +1,18 @@
 cask "sfm-latest" do
-    name "SFM"
-    desc "Standalone client for sing-box, the universal proxy platform"
-    homepage "https://sing-box.sagernet.org/"
+  version "#{{ver}}"
+  sha256 "#{{sha256}}"
 
-    version "#{{ver}}"
-    url "#{{url}}",
-        verified: "github.com/SagerNet/sing-box/"
-    sha256 "#{{sha256}}"
+  url "#{{url}}",
+      verified: "github.com/SagerNet/sing-box/"
+  name "SFM"
+  desc "Standalone client for sing-box, the universal proxy platform"
+  homepage "https://sing-box.sagernet.org/"
 
-    depends_on macos: ">= :ventura"
+  depends_on macos: ">= :ventura"
 
-    pkg "SFM-#{version}-Apple.pkg"
+  pkg "SFM-#{version}-Apple.pkg"
 
-    uninstall   quit:       "io.nekohasekai.sfavt.standalone",
-                login_item: "SFM",
-                pkgutil:    "io.nekohasekai.sfavt.standalone"
+  uninstall quit:       "io.nekohasekai.sfavt.standalone",
+            login_item: "SFM",
+            pkgutil:    "io.nekohasekai.sfavt.standalone"
 end

@@ -1,12 +1,11 @@
 class SingBoxLatest < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
+  url "#{{url}}"
+  version "#{{ver}}"
+  sha256 "#{{sha256}}"
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "dev-next"
-
-  version "#{{ver}}"
-  url "#{{url}}"
-  sha256 "#{{sha256}}"
 
   def install
     bin.install "sing-box"
