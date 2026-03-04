@@ -9,4 +9,9 @@ cask "piliplus" do
   homepage "https://github.com/bggRGjQaUbCoE/PiliPlus"
 
   app "PiliPlus.app"
+
+  postflight do
+    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/BewlyCat.app"]
+    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/BewlyCat.app"]
+  end
 end
