@@ -27,6 +27,8 @@ def update_stable_diffusion_cpp() -> None:
         if "sd-master" in r["tag_name"]:
             release = r
             break
+    if release == {}:
+        raise ValueError("Failed to find the correct release for stable-diffusion.cpp.")
     version = release["tag_name"].replace("sd-master-", "0.0.").replace("-", "_")
     url = f"https://github.com/MZWNET/actions/releases/download/{release["tag_name"]}/{release["tag_name"]}-bin-macos-metal-arm64.zip"
     sha256 = github_sha256_util(release, url)
@@ -91,6 +93,8 @@ def update_bewlycat() -> None:
         if "bewlycat-" in r["tag_name"]:
             release = r
             break
+    if release == {}:
+        raise ValueError("Failed to find the correct release for BewlyCat.")
     version = release["tag_name"].replace("bewlycat-v", "")
     url = f"https://github.com/MZWNET/actions/releases/download/bewlycat-v{version}/BewlyCat-v{version}.dmg"
     sha256 = github_sha256_util(release, url)
@@ -109,6 +113,30 @@ def update_xmcl() -> None:
     update_util("Casks/xmcl", ver=version, url=url, sha256=sha256)
 
 
+def update_piliplus() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/bggRGjQaUbCoE/PiliPlus/releases/latest"
+        ).json()
+    )
+    version: str = ""
+    url: str = ""
+    for asset in release["assets"]:
+        if asset["name"].endswith(".dmg") and "macos" in asset["name"]:
+            version = (
+                asset["name"]
+                .replace("PiliPlus_macos_", "")
+                .replace(".dmg", "")
+                .replace("+", ",")
+            )
+            url = asset["browser_download_url"]
+            break
+    if version == "" or url == "":
+        raise ValueError("Failed to find the correct asset for PiliPlus.")
+    sha256 = github_sha256_util(release, url)
+    update_util("Casks/piliplus", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -118,6 +146,7 @@ if __name__ == "__main__":
         update_bifrost,
         update_bewlycat,
         update_xmcl,
+        update_piliplus,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
