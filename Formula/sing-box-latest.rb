@@ -1,9 +1,9 @@
 class SingBoxLatest < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.13.1/sing-box-1.13.1-darwin-arm64.tar.gz"
-  version "1.13.1"
-  sha256 "c3e2b330f1961f30b7f369b00afa15ea1634b322973ec9f877f1300f20ac26f9"
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-alpha.1/sing-box-1.14.0-alpha.1-darwin-arm64.tar.gz"
+  version "1.14.0-alpha.1"
+  sha256 "418695e4f8c1e23054ffbde70ae7787d8bea15a19aa8fb6ed78b7cd0896ab20a"
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "dev-next"
 
