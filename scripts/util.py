@@ -11,11 +11,13 @@ T = TypeVar("T")
 
 
 def update_util(name: str, **kwargs: str) -> None:
-    with open(Path("templates") / (name + ".rb"), "r") as file:
+    file_path = f"{name}.rb"
+    with open(file_path, "r") as file:
         content: str = file.read()
     for key, value in kwargs.items():
-        content = content.replace("#{{" + key + "}}", value)
-    with open(name + ".rb", "w") as file:
+        rb_key = "version" if key == "ver" else key
+        content = re.sub(rf'(^[ \t]*{rb_key}[ \t]+)"[^"]*"', rf'\1"{value}"', content, flags=re.MULTILINE)
+    with open(file_path, "w") as file:
         file.write(content)
 
 
