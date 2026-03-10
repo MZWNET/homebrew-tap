@@ -15,6 +15,7 @@ token: str | None = os.environ.get("GITHUB_TOKEN")
 headers: dict[str, str] = {"Authorization": f"Bearer {token}"} if token else {}
 
 
+# Formula
 def update_stable_diffusion_cpp() -> None:
     releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
@@ -57,6 +58,7 @@ def update_sing_box_latest() -> None:
     update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
 
 
+# Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(

@@ -16,7 +16,12 @@ def update_util(name: str, **kwargs: str) -> None:
         content: str = file.read()
     for key, value in kwargs.items():
         rb_key = "version" if key == "ver" else key
-        content = re.sub(rf'(^[ \t]*{rb_key}[ \t]+)"[^"]*"', rf'\1"{value}"', content, flags=re.MULTILINE)
+        content = re.sub(
+            rf'(^[ \t]*{rb_key}[ \t]+)"[^"]*"',
+            rf'\1"{value}"',
+            content,
+            flags=re.MULTILINE,
+        )
     with open(file_path, "w") as file:
         file.write(content)
 
