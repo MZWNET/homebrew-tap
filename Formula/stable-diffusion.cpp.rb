@@ -7,6 +7,8 @@ class StableDiffusionCpp < Formula
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
 
+  depends_on "libomp"
+
   def install
     libexec.install Dir["*"]
     bin.install_symlink libexec/"sd-cli"
