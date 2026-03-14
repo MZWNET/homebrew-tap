@@ -3,7 +3,7 @@ class StableDiffusionCpp < Formula
   homepage "https://github.com/leejet/stable-diffusion.cpp"
   url "https://github.com/MZWNET/actions/releases/download/sd-master-525-d6dd6d7/sd-master-525-d6dd6d7-bin-macos-metal-arm64.zip"
   version "0.0.525_d6dd6d7"
-  sha256 "c530c3a2dfe35385ea0a0cef34ca44528c10867e650eafc2c671784346e27de6"
+  sha256 "79166024578ebd37d7200bb27946d12d1bdf33355c482e0b1388da880ffaddb4"
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
 
