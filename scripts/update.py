@@ -32,7 +32,7 @@ def update_stable_diffusion_cpp() -> None:
         raise ValueError("Failed to find the correct release for stable-diffusion.cpp.")
     version = release["tag_name"].replace("sd-master-", "0.0.").replace("-", "_")
     url = f"https://github.com/MZWNET/actions/releases/download/{release["tag_name"]}/{release["tag_name"]}-bin-macos-metal-arm64.zip"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
 
 
@@ -54,7 +54,7 @@ def update_sing_box_latest() -> None:
     )[0]
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/sing-box-{version}-darwin-arm64.tar.gz"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
 
 
@@ -68,7 +68,7 @@ def update_sfm_latest() -> None:
     )[0]
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
 
 
@@ -79,7 +79,7 @@ def update_bifrost() -> None:
         ).json()
     )
     url = f"https://github.com/zacharee/SamloaderKotlin/releases/download/{release["tag_name"]}/bifrost-{release["tag_name"]}-mac-aarch64.zip"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/bifrost", ver=release["tag_name"], url=url, sha256=sha256)
 
 
@@ -99,7 +99,7 @@ def update_bewlycat() -> None:
         raise ValueError("Failed to find the correct release for BewlyCat.")
     version = release["tag_name"].replace("bewlycat-v", "")
     url = f"https://github.com/MZWNET/actions/releases/download/bewlycat-v{version}/BewlyCat-v{version}.dmg"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/bewlycat", ver=version, url=url, sha256=sha256)
 
 
@@ -111,7 +111,7 @@ def update_xmcl() -> None:
     )
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/Voxelum/x-minecraft-launcher/releases/download/v{version}/xmcl-{version}-arm64.dmg"
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/xmcl", ver=version, url=url, sha256=sha256)
 
 
@@ -135,8 +135,20 @@ def update_piliplus() -> None:
             break
     if version == "" or url == "":
         raise ValueError("Failed to find the correct asset for PiliPlus.")
-    sha256 = github_sha256_util(release, url)
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/piliplus", ver=version, url=url, sha256=sha256)
+
+
+def update_astrbot_desktop() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/AstrBotDevs/AstrBot-desktop/releases/latest"
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/AstrBotDevs/AstrBot-desktop/releases/download/v{version}/AstrBot_{version}_macos_arm64.app.tar.gz"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/astrbot-desktop", ver=version, url=url, sha256=sha256)
 
 
 if __name__ == "__main__":
@@ -149,6 +161,7 @@ if __name__ == "__main__":
         update_bewlycat,
         update_xmcl,
         update_piliplus,
+        update_astrbot_desktop,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]

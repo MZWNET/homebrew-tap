@@ -67,7 +67,7 @@ def github_sha256_util(release: dict[str, Any], url: str) -> str:
                 sha256 = asset["digest"][7:]
             break
     if not sha256:
-        sha256 = retry_util(lambda: sha256_util(url))
+        sha256 = sha256_util(url)
     return sha256
 
 
