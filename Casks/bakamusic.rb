@@ -8,5 +8,5 @@ cask "bakamusic" do
   desc "一个插件化、定制化、无广告的免费桌面音乐播放器。"
   homepage "https://github.com/Zencok/BakaMusic/"
 
-  app "X Minecraft Launcher.app"
+  app "BakaMusic.app"
 end
