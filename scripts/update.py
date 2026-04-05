@@ -151,6 +151,18 @@ def update_astrbot_desktop() -> None:
     update_util("Casks/astrbot-desktop", ver=version, url=url, sha256=sha256)
 
 
+def update_bakamusic() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/Zencok/BakaMusic/releases/latest"
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/Zencok/BakaMusic/releases/download/v{version}/BakaMusic-{version}-darwin-arm64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/bakamusic", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -162,6 +174,7 @@ if __name__ == "__main__":
         update_xmcl,
         update_piliplus,
         update_astrbot_desktop,
+        update_bakamusic,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
