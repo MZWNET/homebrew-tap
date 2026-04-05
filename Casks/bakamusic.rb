@@ -9,4 +9,9 @@ cask "bakamusic" do
   homepage "https://github.com/Zencok/BakaMusic/"
 
   app "BakaMusic.app"
+
+  postflight do
+    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/BakaMusic.app"]
+    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/BakaMusic.app"]
+  end
 end
