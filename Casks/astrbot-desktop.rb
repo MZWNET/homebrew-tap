@@ -1,8 +1,8 @@
 cask "astrbot-desktop" do
-  version "4.23.0-beta.1"
-  sha256 "afc291eaf36051f426f29721e7a17b2b078c779a2c14802cd31728c97ebf5e08"
+  version "4.23.1"
+  sha256 "21908041deb339a1c86fed635d9344ca40202c4ef7679b5d4518a1302cd71b4a"
 
-  url "https://github.com/AstrBotDevs/AstrBot-desktop/releases/download/v4.23.0-beta.1/AstrBot_4.23.0-beta.1_macos_arm64.app.tar.gz",
+  url "https://github.com/AstrBotDevs/AstrBot-desktop/releases/download/v4.23.1/AstrBot_4.23.1_macos_arm64.app.tar.gz",
       verified: "github.com/AstrBotDevs/AstrBot-desktop/"
   name "AstrBot Desktop"
   desc "Desktop edition of AstrBot, designed for fast local installation and convenient access to ChatUI and plugins"
