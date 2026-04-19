@@ -163,6 +163,30 @@ def update_bakamusic() -> None:
     update_util("Casks/bakamusic", ver=version, url=url, sha256=sha256)
 
 
+def update_kelivo() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/Chevey339/kelivo/releases/latest"
+        ).json()
+    )
+    version: str = ""
+    url: str = ""
+    for asset in release["assets"]:
+        if asset["name"].endswith(".dmg") and "macos" in asset["name"]:
+            version = (
+                asset["name"]
+                .replace("Kelivo_macos_", "")
+                .replace(".dmg", "")
+                .replace("+", ",")
+            )
+            url = asset["browser_download_url"]
+            break
+    if version == "" or url == "":
+        raise ValueError("Failed to find the correct asset for Kelivo.")
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/kelivo", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -175,6 +199,7 @@ if __name__ == "__main__":
         update_piliplus,
         update_astrbot_desktop,
         update_bakamusic,
+        update_kelivo,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
