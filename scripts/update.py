@@ -187,6 +187,17 @@ def update_kelivo() -> None:
     update_util("Casks/kelivo", ver=version, url=url, sha256=sha256)
 
 
+def update_websocket_reflector_x() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/XDSEC/WebSocketReflectorX/releases/latest"
+        ).json()
+    )
+    url = f"https://github.com/XDSEC/WebSocketReflectorX/releases/download/{release["tag_name"]}/WebSocketReflectorX-{release["tag_name"]}-macos-aarch64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/websocket-reflector-x", ver=release["tag_name"], url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
