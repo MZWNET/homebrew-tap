@@ -211,6 +211,7 @@ if __name__ == "__main__":
         update_astrbot_desktop,
         update_bakamusic,
         update_kelivo,
+        update_websocket_reflector_x,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]

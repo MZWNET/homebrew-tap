@@ -1,6 +1,6 @@
 cask "websocket-reflector-x" do
-  version "1.1.4"
-  sha256 "7506ddda66dee4908d86eb0444de2e4cd18c3f4cd7f24a344aabdf7e486c8c8f"
+  version "0.5.17"
+  sha256 "d3ea0617b499add3332a1496089956136fca167e586a68549dea4db5f8e5bceb"
 
   url "https://github.com/XDSEC/WebSocketReflectorX/releases/download/0.5.17/WebSocketReflectorX-0.5.17-macos-aarch64.dmg",
       verified: "github.com/XDSEC/WebSocketReflectorX/"
