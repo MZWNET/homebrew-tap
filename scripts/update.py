@@ -100,8 +100,8 @@ def update_kiro_rs() -> None:
             break
     if release == {}:
         raise ValueError("Failed to find the correct release for kiro.rs.")
-    version = release["tag_name"].replace("kiro-rs-", "")
-    url = f"https://github.com/MZWNET/actions/releases/download/kiro-rs-{version}/kiro-rs-{version}-aarch64-apple-darwin.zip"
+    version = release["tag_name"].replace("kiro-rs-", "").replace("v", "")
+    url = f"https://github.com/MZWNET/actions/releases/download/kiro-rs-v{version}/kiro-rs-v{version}-aarch64-apple-darwin.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/kiro.rs", ver=version, url=url, sha256=sha256)
 
