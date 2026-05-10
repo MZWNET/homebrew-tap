@@ -71,6 +71,21 @@ def update_gryph() -> None:
     update_util("Formula/gryph", ver=version, url=url, sha256=sha256)
 
 
+def update_cliproxyapiplus() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/kaitranntt/CLIProxyAPIPlus/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v{version}/CLIProxyAPIPlus_{version}_darwin_aarch64.tar.gz"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util(
+        "Formula/cliproxyapiplus", ver=version.replace("-", "_"), url=url, sha256=sha256
+    )
+
+
 # Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
@@ -208,7 +223,9 @@ def update_websocket_reflector_x() -> None:
     )
     url = f"https://github.com/XDSEC/WebSocketReflectorX/releases/download/{release["tag_name"]}/WebSocketReflectorX-{release["tag_name"]}-macos-aarch64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/websocket-reflector-x", ver=release["tag_name"], url=url, sha256=sha256)
+    update_util(
+        "Casks/websocket-reflector-x", ver=release["tag_name"], url=url, sha256=sha256
+    )
 
 
 if __name__ == "__main__":
@@ -218,6 +235,7 @@ if __name__ == "__main__":
         update_sing_box_latest,
         update_sfm_latest,
         update_gryph,
+        update_cliproxyapiplus,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
