@@ -1,4 +1,4 @@
-class CLIProxyAPIPlus < Formula
+class Cliproxyapiplus < Formula
   desc "CCS-maintained fork of CLIProxyAPIPlus"
   homepage "https://github.com/kaitranntt/CLIProxyAPIPlus"
   url "https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v6.10.9-1/CLIProxyAPIPlus_6.10.9-1_darwin_aarch64.tar.gz"
