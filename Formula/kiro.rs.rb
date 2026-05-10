@@ -1,9 +1,9 @@
 class KiroRs < Formula
   desc "A Kiro Client in Rust"
   homepage "https://github.com/hank9999/kiro.rs"
-  url "https://github.com/safedep/gryph/releases/download/v0.7.0/gryph_Darwin_all.tar.gz"
-  version "0.7.0"
-  sha256 "07e6827409e3f2b5b41b8f6ffa4651e343489563f26c28c09808af0794165077"
+  url "https://github.com/MZWNET/actions/releases/download/kiro-rs-v2026.3.1/kiro-rs-v2026.3.1-aarch64-apple-darwin.zip"
+  version "v2026.3.1"
+  sha256 "347e69f57397d2bbe28e1fe3f6692429661e4c31720780d828852cfdaf964465"
   head "https://github.com/hank9999/kiro.rs.git"
 
   def install
