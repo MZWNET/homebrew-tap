@@ -58,6 +58,19 @@ def update_sing_box_latest() -> None:
     update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
 
 
+def update_gryph() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/safedep/gryph/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/safedep/gryph/releases/download/v{version}/gryph_Darwin_all.tar.gz"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Formula/gryph", ver=version, url=url, sha256=sha256)
+
+
 # Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
@@ -204,6 +217,7 @@ if __name__ == "__main__":
         update_hfd,
         update_sing_box_latest,
         update_sfm_latest,
+        update_gryph,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
