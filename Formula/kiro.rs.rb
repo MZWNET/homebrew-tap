@@ -7,7 +7,7 @@ class KiroRs < Formula
   head "https://github.com/hank9999/kiro.rs.git"
 
   def install
-    bin.install "gryph"
-    chmod 0755, bin/"gryph"
+    bin.install "kiro-rs"
+    chmod 0755, bin/"kiro-rs"
   end
 end
