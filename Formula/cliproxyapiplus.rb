@@ -13,7 +13,7 @@ class Cliproxyapiplus < Formula
   end
 
   service do
-    run [opt_bin/"cli-proxy-api-plus"]
+    run [opt_bin/"cli-proxy-api-plus", "--config", etc/"cliproxyapiplus.yaml"]
     keep_alive true
   end
 
