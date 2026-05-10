@@ -86,6 +86,26 @@ def update_cliproxyapiplus() -> None:
     )
 
 
+def update_kiro_rs() -> None:
+    releases: list[dict[str, Any]] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/MZWNET/actions/releases?per_page=5",
+            headers=headers,
+        ).json()
+    )
+    release: dict[str, Any] = {}
+    for r in releases:
+        if "kiro-rs" in r["tag_name"]:
+            release = r
+            break
+    if release == {}:
+        raise ValueError("Failed to find the correct release for kiro.rs.")
+    version = release["tag_name"].replace("kiro-rs-", "")
+    url = f"https://github.com/MZWNET/actions/releases/download/kiro-rs-{version}/kiro-rs-{version}-aarch64-apple-darwin.zip"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Formula/kiro.rs", ver=version, url=url, sha256=sha256)
+
+
 # Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
@@ -235,6 +255,7 @@ if __name__ == "__main__":
         update_sing_box_latest,
         update_sfm_latest,
         update_gryph,
+        update_kiro_rs,
         update_cliproxyapiplus,
         update_bifrost,
         update_bewlycat,
