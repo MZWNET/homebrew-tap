@@ -106,6 +106,30 @@ def update_kiro_rs() -> None:
     update_util("Formula/kiro.rs", ver=version, url=url, sha256=sha256)
 
 
+def update_manboster() -> None:
+    releases: list[dict[str, Any]] = retry_util(
+        lambda: requests.get(
+            "https://git.wbhh.moe/api/v1/repos/chi/manboster/releases?limit=1"
+        ).json()
+    )
+    if not releases:
+        raise ValueError("Failed to fetch releases for manboster.")
+    release: dict[str, Any] = releases[0]
+    version = ""
+    url = ""
+    for asset in release["assets"]:
+        if "darwin-arm64" in asset["name"]:
+            url = asset["browser_download_url"]
+            version = asset["name"].split("-")[1] + "_" + asset["name"].split("-")[3]
+            break
+    if url == "":
+        raise ValueError("Failed to find the correct asset for manboster.")
+    print(version)
+    print(url)
+    sha256 = retry_util(lambda: sha256_util(url))
+    update_util("Formula/manboster", ver=version, url=url, sha256=sha256)
+
+
 # Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
@@ -255,8 +279,9 @@ if __name__ == "__main__":
         update_sing_box_latest,
         update_sfm_latest,
         update_gryph,
-        update_kiro_rs,
         update_cliproxyapiplus,
+        update_kiro_rs,
+        update_manboster,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
