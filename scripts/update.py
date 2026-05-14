@@ -89,7 +89,7 @@ def update_cliproxyapiplus() -> None:
 def update_kiro_rs() -> None:
     releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
-            "https://api.github.com/repos/MZWNET/actions/releases?per_page=5",
+            "https://api.github.com/repos/MZWNET/actions/releases?per_page=100",
             headers=headers,
         ).json()
     )
@@ -124,8 +124,6 @@ def update_manboster() -> None:
             break
     if url == "":
         raise ValueError("Failed to find the correct asset for manboster.")
-    print(version)
-    print(url)
     sha256 = retry_util(lambda: sha256_util(url))
     update_util("Formula/manboster", ver=version, url=url, sha256=sha256)
 
