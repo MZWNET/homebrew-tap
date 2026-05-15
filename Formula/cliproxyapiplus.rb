@@ -1,9 +1,9 @@
 class Cliproxyapiplus < Formula
   desc "CCS-maintained fork of CLIProxyAPIPlus"
   homepage "https://github.com/kaitranntt/CLIProxyAPIPlus"
-  url "https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v7.0.4-0/CLIProxyAPIPlus_7.0.4-0_darwin_aarch64.tar.gz"
-  version "7.0.4_0"
-  sha256 "2ab72ebc653ac0b82d622c0076242c5adabda8cc9ce6e753366c4ddd7f641979"
+  url "https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v7.0.6-0/CLIProxyAPIPlus_7.0.6-0_darwin_aarch64.tar.gz"
+  version "7.0.6_0"
+  sha256 "10f40537e139087f3e03d858a15b1a174e9483e56a255da24ef432637b91ab18"
   license "MIT"
   head "https://github.com/kaitranntt/CLIProxyAPIPlus.git", branch: "main"
 
