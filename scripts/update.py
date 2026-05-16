@@ -82,7 +82,7 @@ def update_cliproxyapiplus() -> None:
     url = f"https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v{version}/CLIProxyAPIPlus_{version}_darwin_aarch64.tar.gz"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util(
-        "Formula/cliproxyapiplus", ver=version.replace("-", "_"), url=url, sha256=sha256
+        "Formula/cliproxyapiplus", ver=version, url=url, sha256=sha256
     )
 
 
