@@ -86,6 +86,9 @@ def git_util(url: str, name: str) -> dict[str, str]:
         rev: str = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=f"repo/{name}", text=True
         ).strip()
-        return {"version": ver, "revision": rev}
+        branch: str = subprocess.check_output(
+            ["git", "branch", "--show-current"], cwd=f"repo/{name}", text=True
+        ).strip()
+        return {"version": ver, "revision": rev, "branch": branch}
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Clone failed: {e}")
