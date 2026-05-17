@@ -282,9 +282,10 @@ def update_websocket_reflector_x() -> None:
 def update_memoh() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
-            "https://api.github.com/repos/memohai/Memoh/releases/latest"
+            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
+            headers=headers,
         ).json()
-    )
+    )[0]
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-Desktop-{version}-mac-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
