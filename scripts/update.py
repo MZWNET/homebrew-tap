@@ -279,6 +279,19 @@ def update_websocket_reflector_x() -> None:
     )
 
 
+def update_memoh() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/memohai/Memoh/releases/latest"
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-Desktop-{version}-mac-arm64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util(
+        "Casks/memoh", ver=version, url=url, sha256=sha256
+    )
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -298,6 +311,7 @@ if __name__ == "__main__":
         update_bakamusic,
         update_kelivo,
         update_websocket_reflector_x,
+        update_memoh,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
