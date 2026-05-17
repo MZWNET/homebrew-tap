@@ -14,7 +14,7 @@ class Manboster < Formula
   end
 
   service do
-    run [opt_bin/"manboster", "start"]
+    run [opt_bin/"manboster"]
     keep_alive true
   end
 end
