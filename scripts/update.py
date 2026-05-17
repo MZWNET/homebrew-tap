@@ -81,9 +81,7 @@ def update_cliproxyapiplus() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v{version}/CLIProxyAPIPlus_{version}_darwin_aarch64.tar.gz"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util(
-        "Formula/cliproxyapiplus", ver=version, url=url, sha256=sha256
-    )
+    update_util("Formula/cliproxyapiplus", ver=version, url=url, sha256=sha256)
 
 
 def update_kiro_rs() -> None:
@@ -130,11 +128,15 @@ def update_manboster() -> None:
 
 def update_crossover_trial_reset() -> None:
     release: dict[str, str] = retry_util(
-        lambda: git_util(acquire_util("Formula/crossover-trial-reset", "head"), "reset_crossover.sh")
+        lambda: git_util(
+            acquire_util("Formula/crossover-trial-reset", "head"), "reset_crossover.sh"
+        )
     )
     url = f"{acquire_util("Formula/crossover-trial-reset", "homepage")}/raw/refs/heads/{release["branch"]}/reset_crossover.sh"
     sha256 = retry_util(lambda: sha256_util(url))
-    update_util("Formula/crossover-trial-reset", ver=release["version"], url=url, sha256=sha256)
+    update_util(
+        "Formula/crossover-trial-reset", ver=release["version"], url=url, sha256=sha256
+    )
 
 
 # Casks
@@ -282,16 +284,15 @@ def update_websocket_reflector_x() -> None:
 def update_memoh() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
-            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
+            "https://api.github.com/repos/memohai/Memoh/releases?per_page=1",
             headers=headers,
         ).json()
     )[0]
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-Desktop-{version}-mac-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util(
-        "Casks/memoh", ver=version, url=url, sha256=sha256
-    )
+    update_util("Casks/memoh", ver=version, url=url, sha256=sha256)
+
 
 if __name__ == "__main__":
     tasks = [
