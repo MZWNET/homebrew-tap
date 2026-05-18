@@ -1,8 +1,8 @@
 cask "xmcl" do
-  version "0.56.1"
-  sha256 "03694ded293f353f7d7db0ef07ca862965beab9900728bbb8726421899062efd"
+  version "0.56.2"
+  sha256 "f17de5ab4245f4671ba8956a5f2ffd5ba3725fbe7d9091ce8455fc67d3085894"
 
-  url "https://github.com/Voxelum/x-minecraft-launcher/releases/download/v0.56.1/xmcl-0.56.1-arm64.dmg",
+  url "https://github.com/Voxelum/x-minecraft-launcher/releases/download/v0.56.2/xmcl-0.56.2-arm64.dmg",
       verified: "github.com/Voxelum/x-minecraft-launcher/"
   name "X Minecraft Launcher"
   desc "Open Source Minecraft Launcher with Modern UX. Provides a Disk Efficient way to manage all your Mods!"
