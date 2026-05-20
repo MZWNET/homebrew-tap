@@ -107,7 +107,7 @@ def update_kiro_rs() -> None:
 def update_manboster() -> None:
     releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
-            "https://git.wbhh.moe/api/v1/repos/chi/manboster/releases?limit=1"
+            "https://git.wbhh.moe/api/v1/repos/manboster/manboster/releases?limit=1"
         ).json()
     )
     if not releases:
