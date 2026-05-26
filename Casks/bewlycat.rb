@@ -1,8 +1,8 @@
 cask "bewlycat" do
-  version "1.6.5"
-  sha256 "0918acfb12f84d4fc0b90291cdda9326d7f3b5f0f7da4a30482536c0bad08dcf"
+  version "1.6.6"
+  sha256 "4aa9b26f571366b9572a8d7d1530c5a0f62052a12c90c0389365363cd04e37bc"
 
-  url "https://github.com/MZWNET/actions/releases/download/bewlycat-v1.6.5/BewlyCat-v1.6.5.dmg"
+  url "https://github.com/MZWNET/actions/releases/download/bewlycat-v1.6.6/BewlyCat-v1.6.6.dmg"
   name "BewlyCat"
   desc "——基于BewlyBewly开发的Bilibili拓展"
   homepage "https://github.com/keleus/BewlyCat"
