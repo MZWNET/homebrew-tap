@@ -10,4 +10,11 @@ cask "codex-plus-plus" do
 
   app "Codex++.app"
   app "Codex++ 管理工具.app"
+
+  postflight do
+    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/Codex++.app"]
+    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/Codex++.app"]
+    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/Codex++ 管理工具.app"]
+    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/Codex++ 管理工具.app"]
+  end
 end
