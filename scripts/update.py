@@ -294,6 +294,18 @@ def update_memoh() -> None:
     update_util("Casks/memoh", ver=version, url=url, sha256=sha256)
 
 
+def update_codex_plus_plus() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/BigPizzaV3/CodexPlusPlus/releases/latest"
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v{version}/CodexPlusPlus-{version}-macos-arm64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/codex-plus-plus", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -314,6 +326,7 @@ if __name__ == "__main__":
         update_kelivo,
         update_websocket_reflector_x,
         update_memoh,
+        update_codex_plus_plus,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
