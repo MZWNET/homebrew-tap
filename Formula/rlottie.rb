@@ -12,8 +12,8 @@ class Rlottie < Formula
   depends_on "ninja" => :build
 
   patch do
-    url "https://github.com/Samsung/rlottie/pull/556/changes.diff"
-    sha256 "f1896e3d828c12ca7e4e900940dbd110005a281ca782ef619b5396f1cb0197e1"
+    url "https://patch-diff.githubusercontent.com/raw/Samsung/rlottie/pull/556.diff"
+    sha256 "fc13d55505acefff2f4fe24e6cbb55b900196e71f071fdeb861bcfbc728fde90"
   end
 
   def install
