@@ -289,7 +289,7 @@ def update_memoh() -> None:
         ).json()
     )[0]
     version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-Desktop-{version}-mac-arm64.dmg"
+    url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-{version}-mac-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/memoh", ver=version, url=url, sha256=sha256)
 
