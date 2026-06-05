@@ -140,19 +140,6 @@ def update_crossover_trial_reset() -> None:
 
 
 # Casks
-def update_sfm_latest() -> None:
-    release: dict[str, Any] = retry_util(
-        lambda: requests.get(
-            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
-            headers=headers,
-        ).json()
-    )[0]
-    version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
-    sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
-
-
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
@@ -311,7 +298,6 @@ if __name__ == "__main__":
         update_stable_diffusion_cpp,
         update_hfd,
         update_sing_box_latest,
-        update_sfm_latest,
         update_gryph,
         update_cliproxyapiplus,
         update_kiro_rs,
