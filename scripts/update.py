@@ -139,6 +139,26 @@ def update_crossover_trial_reset() -> None:
     )
 
 
+def update_hydroxide() -> None:
+    releases: list[dict[str, Any]] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/MZWNET/actions/releases?per_page=100",
+            headers=headers,
+        ).json()
+    )
+    release: dict[str, Any] = {}
+    for r in releases:
+        if "hydroxide" in r["tag_name"]:
+            release = r
+            break
+    if release == {}:
+        raise ValueError("Failed to find the correct release for hydroxide.")
+    version = release["tag_name"].replace("hydroxide-", "").replace("v", "")
+    url = f"https://github.com/MZWNET/actions/releases/download/hydroxide-v{version}/hydroxide-v{version}-macos-arm64.zip"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Formula/hydroxide", ver=version, url=url, sha256=sha256)
+
+
 # Casks
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
@@ -303,6 +323,7 @@ if __name__ == "__main__":
         update_kiro_rs,
         update_manboster,
         update_crossover_trial_reset,
+        update_hydroxide,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
