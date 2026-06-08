@@ -1,8 +1,8 @@
 cask "kelivo" do
-  version "1.1.15,52"
-  sha256 "ffd9c40c4ffb0faed52aa1fe2532ed32db30159af812b5a9e40eacfdc910bf3f"
+  version "1.1.16,60"
+  sha256 "12f2300d603931f81405176f2bddc1ea4aef266519c79d77198ea14dcee24f7b"
 
-  url "https://github.com/Chevey339/kelivo/releases/download/v1.1.15/Kelivo_macos_1.1.15%2B52.dmg",
+  url "https://github.com/Chevey339/kelivo/releases/download/v1.1.16/Kelivo_macos_1.1.16%2B60.dmg",
       verified: "github.com/Chevey339/kelivo"
   name "Kelivo"
   desc "A Flutter LLM Chat Client. Support Mobile & Desktop."
