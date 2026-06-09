@@ -1,8 +1,8 @@
 cask "bakamusic" do
-  version "1.2.1"
-  sha256 "834d13bf12df6d3f39b51302aaa16b60945578d6c1cea4b4f82c701488762a33"
+  version "1.2.2"
+  sha256 "4673b3a381c00e0a7f9dba501f2665bed9a5d89954dff497fc3fe92007f1b611"
 
-  url "https://github.com/Zencok/BakaMusic/releases/download/v1.2.1/BakaMusic-1.2.1-darwin-arm64.dmg",
+  url "https://github.com/Zencok/BakaMusic/releases/download/v1.2.2/BakaMusic-1.2.2-darwin-arm64.dmg",
       verified: "github.com/Zencok/BakaMusic/"
   name "BakaMusic"
   desc "一个插件化、定制化、无广告的免费桌面音乐播放器。"
