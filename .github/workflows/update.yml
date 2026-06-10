@@ -32,6 +32,9 @@ jobs:
         with:
           working-directory: scripts
 
+      - name: Install dependencies
+        run: uv sync --no-dev --frozen
+
       - name: Update packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
