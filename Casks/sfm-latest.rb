@@ -8,8 +8,6 @@ cask "sfm-latest" do
   desc "Standalone client for sing-box, the universal proxy platform"
   homepage "https://sing-box.sagernet.org/"
 
-  depends_on macos: ">= :ventura"
-
   pkg "SFM-#{version}-Apple.pkg"
 
   uninstall quit:       "io.nekohasekai.sfavt.standalone",
