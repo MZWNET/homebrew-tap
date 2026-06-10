@@ -40,7 +40,7 @@ jobs:
         working-directory: scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: uv run scripts/main.py
+        run: uv run main.py
 
       - name: Commit
         run: |
