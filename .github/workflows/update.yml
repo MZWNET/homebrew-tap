@@ -33,6 +33,7 @@ jobs:
           working-directory: scripts
 
       - name: Install dependencies
+        working-directory: scripts
         run: uv sync --no-dev --frozen
 
       - name: Update packages
