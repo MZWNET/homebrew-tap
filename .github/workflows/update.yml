@@ -2,7 +2,7 @@ name: Update
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
   workflow_dispatch:
   push:
     branches:
@@ -22,10 +22,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "scripts/.python-version"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@main
+        with:
+          working-directory: scripts
+
       - name: Update packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/update.py
+        run: uv run scripts/main.py
 
       - name: Commit
         run: |

@@ -31,7 +31,7 @@ def update_stable_diffusion_cpp() -> None:
     if release == {}:
         raise ValueError("Failed to find the correct release for stable-diffusion.cpp.")
     version = release["tag_name"].replace("sd-master-", "0.0.").replace("-", "_")
-    url = f"https://github.com/MZWNET/actions/releases/download/{release["tag_name"]}/{release["tag_name"]}-bin-macos-metal-arm64.zip"
+    url = f"https://github.com/MZWNET/actions/releases/download/{release['tag_name']}/{release['tag_name']}-bin-macos-metal-arm64.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/stable-diffusion.cpp", ver=version, url=url, sha256=sha256)
 
@@ -40,7 +40,7 @@ def update_hfd() -> None:
     release: dict[str, str] = retry_util(
         lambda: git_util(acquire_util("Formula/hfd", "head"), "hfd")
     )
-    url = f"{acquire_util("Formula/hfd", "homepage")}/raw/{release["revision"]}/hfd.sh"
+    url = f"{acquire_util('Formula/hfd', 'homepage')}/raw/{release['revision']}/hfd.sh"
     sha256 = retry_util(lambda: sha256_util(url))
     update_util("Formula/hfd", ver=release["version"], url=url, sha256=sha256)
 
@@ -132,7 +132,7 @@ def update_crossover_trial_reset() -> None:
             acquire_util("Formula/crossover-trial-reset", "head"), "reset_crossover.sh"
         )
     )
-    url = f"{acquire_util("Formula/crossover-trial-reset", "homepage")}/raw/refs/heads/{release["branch"]}/reset_crossover.sh"
+    url = f"{acquire_util('Formula/crossover-trial-reset', 'homepage')}/raw/refs/heads/{release['branch']}/reset_crossover.sh"
     sha256 = retry_util(lambda: sha256_util(url))
     update_util(
         "Formula/crossover-trial-reset", ver=release["version"], url=url, sha256=sha256
@@ -160,13 +160,26 @@ def update_hydroxide() -> None:
 
 
 # Casks
+def update_sfm_latest() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
+            headers=headers,
+        ).json()
+    )[0]
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
+
+
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
             "https://api.github.com/repos/zacharee/SamloaderKotlin/releases/latest"
         ).json()
     )
-    url = f"https://github.com/zacharee/SamloaderKotlin/releases/download/{release["tag_name"]}/bifrost-{release["tag_name"]}-mac-aarch64.zip"
+    url = f"https://github.com/zacharee/SamloaderKotlin/releases/download/{release['tag_name']}/bifrost-{release['tag_name']}-mac-aarch64.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/bifrost", ver=release["tag_name"], url=url, sha256=sha256)
 
@@ -281,7 +294,7 @@ def update_websocket_reflector_x() -> None:
             "https://api.github.com/repos/XDSEC/WebSocketReflectorX/releases/latest"
         ).json()
     )
-    url = f"https://github.com/XDSEC/WebSocketReflectorX/releases/download/{release["tag_name"]}/WebSocketReflectorX-{release["tag_name"]}-macos-aarch64.dmg"
+    url = f"https://github.com/XDSEC/WebSocketReflectorX/releases/download/{release['tag_name']}/WebSocketReflectorX-{release['tag_name']}-macos-aarch64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util(
         "Casks/websocket-reflector-x", ver=release["tag_name"], url=url, sha256=sha256
@@ -318,6 +331,7 @@ if __name__ == "__main__":
         update_stable_diffusion_cpp,
         update_hfd,
         update_sing_box_latest,
+        update_sfm_latest,
         update_gryph,
         update_cliproxyapiplus,
         update_kiro_rs,

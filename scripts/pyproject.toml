@@ -1,0 +1,15 @@
+[project]
+name = "homebrew-tap-scripts"
+version = "0.0.1"
+description = "An update script for my Homebrew taps."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.16",
+    "ty>=0.0.46",
+]
