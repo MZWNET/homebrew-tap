@@ -11,7 +11,7 @@ T = TypeVar("T")
 
 
 def update_util(name: str, **kwargs: str) -> None:
-    file_path = f"{name}.rb"
+    file_path = f"../{name}.rb"
     with open(file_path, "r") as file:
         content: str = file.read()
     for key, value in kwargs.items():
@@ -36,9 +36,9 @@ def retry_util(func: Callable[[], T]) -> T:
 
 
 def acquire_util(name: str, key: str) -> str:
-    if not Path(name + ".rb").exists():
+    if not Path("../" + name + ".rb").exists():
         return ""
-    with open(name + ".rb", "r") as file:
+    with open(f"../{name}.rb", "r") as file:
         content: str = file.read()
     result: re.Match[str] | None = re.search(rf'{key}\s+"(.*)"', content)
     if result:
@@ -72,22 +72,22 @@ def github_sha256_util(release: dict[str, Any], url: str) -> str:
 
 
 def git_util(url: str, name: str) -> dict[str, str]:
-    if Path(f"repo/{name}").exists():
-        shutil.rmtree(f"repo/{name}")
+    if Path(f"../repo/{name}").exists():
+        shutil.rmtree(f"../repo/{name}")
     try:
-        subprocess.run(["git", "clone", url, f"repo/{name}"], check=True)
+        subprocess.run(["git", "clone", url, f"../repo/{name}"], check=True)
         historyCount: str = subprocess.check_output(
-            ["git", "rev-list", "--count", "HEAD"], cwd=f"repo/{name}", text=True
+            ["git", "rev-list", "--count", "HEAD"], cwd=f"../repo/{name}", text=True
         ).strip()
         shortRev: str = subprocess.check_output(
-            ["git", "rev-parse", "--short=7", "HEAD"], cwd=f"repo/{name}", text=True
+            ["git", "rev-parse", "--short=7", "HEAD"], cwd=f"../repo/{name}", text=True
         ).strip()
         ver: str = f"0.0.{historyCount}_{shortRev}"
         rev: str = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=f"repo/{name}", text=True
+            ["git", "rev-parse", "HEAD"], cwd=f"../repo/{name}", text=True
         ).strip()
         branch: str = subprocess.check_output(
-            ["git", "branch", "--show-current"], cwd=f"repo/{name}", text=True
+            ["git", "branch", "--show-current"], cwd=f"../repo/{name}", text=True
         ).strip()
         return {"version": ver, "revision": rev, "branch": branch}
     except subprocess.CalledProcessError as e:

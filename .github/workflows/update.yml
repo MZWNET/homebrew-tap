@@ -37,6 +37,7 @@ jobs:
         run: uv sync --no-dev --frozen
 
       - name: Update packages
+        working-directory: scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: uv run scripts/main.py
