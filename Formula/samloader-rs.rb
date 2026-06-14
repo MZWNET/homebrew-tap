@@ -1,9 +1,9 @@
 class SamloaderRs < Formula
   desc "Download firmware for Samsung devices"
   homepage "https://github.com/topjohnwu/samloader-rs"
-  url "https://github.com/MZWNET/actions/releases/download/hydroxide-v0.2.32/hydroxide-v0.2.32-macos-arm64.zip"
-  version "0.2.32"
-  sha256 "a4788086bcfc0fc5712faef7c3c7f33d8bb49516c9017e522f05a96287472dc2"
+  url "https://github.com/topjohnwu/samloader-rs/releases/download/1.2.0/samloader-macos-universal.tar.xz"
+  version "1.2.0"
+  sha256 "0809701992136096c906a992dc4af1272921cef3c37be071c57c2bb03da53b58"
   license "Apache-2.0, MIT"
   head "https://github.com/topjohnwu/samloader-rs.git", branch: "main"
 
