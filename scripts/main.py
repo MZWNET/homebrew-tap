@@ -78,10 +78,14 @@ def update_cliproxyapiplus() -> None:
             headers=headers,
         ).json()
     )
-    version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/v{version}/CLIProxyAPIPlus_{version}_darwin_aarch64.tar.gz"
+    url = f"https://github.com/kaitranntt/CLIProxyAPIPlus/releases/download/{release['tag_name']}/CLIProxyAPIPlus_{release['tag_name'].replace('v', '')}_darwin_aarch64_no-plugin.tar.gz"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Formula/cliproxyapiplus", ver=version, url=url, sha256=sha256)
+    update_util(
+        "Formula/cliproxyapiplus",
+        ver=release["tag_name"].replace("v", "").replace("-", ","),
+        url=url,
+        sha256=sha256,
+    )
 
 
 def update_kiro_rs() -> None:
@@ -157,6 +161,18 @@ def update_hydroxide() -> None:
     url = f"https://github.com/MZWNET/actions/releases/download/hydroxide-v{version}/hydroxide-v{version}-macos-arm64.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/hydroxide", ver=version, url=url, sha256=sha256)
+
+
+def update_samloader_rs() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/topjohnwu/samloader-rs/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    url = f"https://github.com/topjohnwu/samloader-rs/releases/download/{release['tag_name']}/samloader-macos-universal.tar.xz"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Formula/samloader-rs", ver=release["tag_name"], url=url, sha256=sha256)
 
 
 # Casks
@@ -338,6 +354,7 @@ if __name__ == "__main__":
         update_manboster,
         update_crossover_trial_reset,
         update_hydroxide,
+        update_samloader_rs,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
