@@ -7,6 +7,10 @@ class ManbosterNightly < Formula
   license "Apache-2.0"
   head "https://github.com/manboster/manboster.git", branch: "master"
 
+  conflicts_with "manboster"
+
+  keg_only :versioned_formula
+
   def install
     executable = Dir["manboster*"].first
     bin.install executable => "manboster"
