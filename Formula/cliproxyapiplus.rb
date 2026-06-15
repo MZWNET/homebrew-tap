@@ -7,6 +7,8 @@ class Cliproxyapiplus < Formula
   license "MIT"
   head "https://github.com/kaitranntt/CLIProxyAPIPlus.git", branch: "main"
 
+  conflicts_with "cliproxyapi"
+
   def install
     bin.install "cli-proxy-api-plus"
     chmod 0755, bin/"cli-proxy-api-plus"

@@ -7,6 +7,8 @@ class SingBoxLatest < Formula
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "dev-next"
 
+  conflicts_with "sing-box"
+
   def install
     bin.install "sing-box"
     generate_completions_from_executable(bin/"sing-box", shell_parameter_format: :cobra)

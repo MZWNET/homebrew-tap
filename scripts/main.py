@@ -1,5 +1,6 @@
 import requests
 import os
+import re
 from typing import Any
 from concurrent.futures import ThreadPoolExecutor
 from util import (
@@ -9,6 +10,7 @@ from util import (
     sha256_util,
     github_sha256_util,
     git_util,
+    compare_version_util,
 )
 
 token: str | None = os.environ.get("GITHUB_TOKEN")
@@ -109,26 +111,80 @@ def update_kiro_rs() -> None:
 
 
 def update_manboster() -> None:
-    release: dict[str, Any] = retry_util(
+    def version(version: str) -> str:
+        version = version.replace("-SNAPSHOT-", ",")
+        return re.sub(
+            r"^(\d+(?:\.\d+)*-[A-Za-z][A-Za-z0-9.]*)-([0-9a-f]{6,})$",
+            r"\1,\2",
+            version,
+        )
+
+    def asset_info(release: dict[str, Any], release_type: str) -> dict[str, str]:
+        for asset in release["assets"]:
+            if (
+                "darwin_arm64" not in asset["name"]
+                and "darwin-arm64" not in asset["name"]
+            ):
+                continue
+            version_match = re.match(
+                r"^manboster_(?P<version>.+)_darwin_arm64\.tar\.gz$",
+                asset["name"],
+            )
+            if not version_match:
+                version_match = re.match(
+                    r"^manboster-(?P<version>\d+(?:\.\d+)*)(?:-.+)?-darwin-arm64$",
+                    asset["name"],
+                )
+            if not version_match:
+                continue
+            return {
+                "version": version(version_match.group("version")),
+                "url": asset["browser_download_url"],
+            }
+        raise ValueError(
+            f"Failed to find the correct asset for manboster {release_type}"
+        )
+
+    formula: dict[str, str] = {
+        "stable": "Formula/manboster",
+        "rc": "Formula/manboster-rc",
+        "nightly": "Formula/manboster-nightly",
+    }
+    releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
-            "https://api.github.com/repos/manboster/manboster/releases/latest",
+            "https://api.github.com/repos/manboster/manboster/releases?per_page=100",
             headers=headers,
         ).json()
     )
-    version = ""
-    url = ""
-    for asset in release["assets"]:
-        if "darwin_arm64" in asset["name"]:
-            url = asset["browser_download_url"]
-            temp_array = asset["name"].split("-")
-            version = temp_array[1]
-            if len(temp_array) >= 3:
-                version += "-" + temp_array[3]
-            break
-    if url == "":
-        raise ValueError("Failed to find the correct asset for manboster.")
-    sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Formula/manboster", ver=version, url=url, sha256=sha256)
+    release: dict[str, dict[str, Any]] = {
+        "stable": {},
+        "rc": {},
+        "nightly": {},
+    }
+    for r in releases:
+        tag_name = r["tag_name"]
+        if "-rc" in tag_name and release["rc"] == {}:
+            release["rc"] = r
+        elif "nightly-" in tag_name and release["nightly"] == {}:
+            release["nightly"] = r
+        elif release["stable"] == {}:
+            release["stable"] = r
+
+    missing = [release_type for release_type, value in release.items() if value == {}]
+    if missing:
+        raise ValueError(f"Failed to find manboster releases: {', '.join(missing)}")
+
+    stable_info = asset_info(release["stable"], "stable")
+    rc_info = asset_info(release["rc"], "rc")
+    if compare_version_util(stable_info["version"], rc_info["version"]) > 0:
+        release["rc"] = release["stable"]
+
+    for release_type, formula_name in formula.items():
+        info = asset_info(release[release_type], release_type)
+        sha256 = retry_util(
+            lambda: github_sha256_util(release[release_type], info["url"])
+        )
+        update_util(formula_name, ver=info["version"], url=info["url"], sha256=sha256)
 
 
 def update_crossover_trial_reset() -> None:

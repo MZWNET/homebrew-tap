@@ -35,6 +35,21 @@ def retry_util(func: Callable[[], T]) -> T:
     raise RuntimeError("Reached maximum number of retries")
 
 
+def compare_version_util(left: str, right: str) -> int:
+    def version_parts(version: str) -> list[int]:
+        result = re.match(r"^(\d+(?:\.\d+)*)", version)
+        if not result:
+            raise ValueError(f"Failed to parse version: {version}")
+        return [int(part) for part in result.group(1).split(".")]
+
+    left_parts = version_parts(left)
+    right_parts = version_parts(right)
+    max_length = max(len(left_parts), len(right_parts))
+    left_parts.extend([0] * (max_length - len(left_parts)))
+    right_parts.extend([0] * (max_length - len(right_parts)))
+    return (left_parts > right_parts) - (left_parts < right_parts)
+
+
 def acquire_util(name: str, key: str) -> str:
     if not Path("../" + name + ".rb").exists():
         return ""

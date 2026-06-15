@@ -1,9 +1,9 @@
-class Manboster < Formula
+class ManbosterNightly < Formula
   desc "你的曼波虾头小助手"
   homepage "https://manboster.dev/"
-  url "https://github.com/manboster/manboster/releases/download/v0.1.0/manboster-0.1.0-stable-b1640a-darwin-arm64"
-  version "0.1.0"
-  sha256 "2fbc48af7b80cdc286c8b618cdd41a220ed6b67cdf4fd7b8c6e1d2952d2f15cd"
+  url "https://github.com/manboster/manboster/releases/download/nightly-20260615/manboster_0.1.0-SNAPSHOT-982237c_darwin_arm64.tar.gz"
+  version "0.1.0,982237c"
+  sha256 "76420a725035884e852a76f9967591673fa6c4c2bad08df1707684093c3575a8"
   license "Apache-2.0"
   head "https://github.com/manboster/manboster.git", branch: "master"
 
