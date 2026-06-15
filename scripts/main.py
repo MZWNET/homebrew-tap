@@ -109,24 +109,25 @@ def update_kiro_rs() -> None:
 
 
 def update_manboster() -> None:
-    releases: list[dict[str, Any]] = retry_util(
+    release: dict[str, Any] = retry_util(
         lambda: requests.get(
-            "https://git.wbhh.moe/api/v1/repos/manboster/manboster/releases?limit=1"
+            "https://api.github.com/repos/manboster/manboster/releases/latest",
+            headers=headers,
         ).json()
     )
-    if not releases:
-        raise ValueError("Failed to fetch releases for manboster.")
-    release: dict[str, Any] = releases[0]
     version = ""
     url = ""
     for asset in release["assets"]:
-        if "darwin-arm64" in asset["name"]:
+        if "darwin_arm64" in asset["name"]:
             url = asset["browser_download_url"]
-            version = asset["name"].split("-")[1] + "_" + asset["name"].split("-")[3]
+            temp_array = asset["name"].split("-")
+            version = temp_array[1]
+            if len(temp_array) >= 3:
+                version += "-" + temp_array[3]
             break
     if url == "":
         raise ValueError("Failed to find the correct asset for manboster.")
-    sha256 = retry_util(lambda: sha256_util(url))
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/manboster", ver=version, url=url, sha256=sha256)
 
 
