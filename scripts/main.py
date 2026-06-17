@@ -163,7 +163,9 @@ def update_manboster() -> None:
     }
     for r in releases:
         tag_name = r["tag_name"]
-        if "-rc" in tag_name and release["rc"] == {}:
+        if tag_name == "canary":
+            continue
+        elif "-rc" in tag_name and release["rc"] == {}:
             release["rc"] = r
         elif "nightly-" in tag_name and release["nightly"] == {}:
             release["nightly"] = r
