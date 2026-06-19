@@ -1,8 +1,8 @@
 cask "memoh" do
-  version "0.12.0"
-  sha256 "564c2d1ac54105492663f7b17357bae6cd86ed8a5783e9503769bb6347bdec7c"
+  version "0.13.1"
+  sha256 "031a3371b3cde8731fce6a2d693afdf7c999b22178e8f4e8e18e80dca53f2168"
 
-  url "https://github.com/memohai/Memoh/releases/download/v0.12.0/Memoh-0.12.0-mac-arm64.dmg",
+  url "https://github.com/memohai/Memoh/releases/download/v0.13.1/Memoh-0.13.1-mac-arm64.dmg",
       verified: "github.com/memohai/Memoh/"
   name "Memoh"
   desc "Self hosted, always-on AI agent platform run in containers"
