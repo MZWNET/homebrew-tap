@@ -1,15 +1,14 @@
 class Manboster < Formula
   desc "你的曼波虾头小助手"
   homepage "https://manboster.dev/"
-  url "https://github.com/manboster/manboster/releases/download/v0.1.0/manboster-0.1.0-stable-b1640a-darwin-arm64"
+  url "https://github.com/manboster/manboster/releases/download/v0.1.0/manboster_0.1.0_darwin_arm64.tar.gz"
   version "0.1.0"
-  sha256 "2fbc48af7b80cdc286c8b618cdd41a220ed6b67cdf4fd7b8c6e1d2952d2f15cd"
+  sha256 "939b5a91c13e9fb9eac76563cbfadbac68b6d7035de4088b79dfef98efc68695"
   license "Apache-2.0"
   head "https://github.com/manboster/manboster.git", branch: "master"
 
   def install
-    executable = Dir["manboster*"].first
-    bin.install executable => "manboster"
+    bin.install "manboster"
     chmod 0755, bin/"manboster"
   end
 

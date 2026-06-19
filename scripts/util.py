@@ -36,18 +36,26 @@ def retry_util(func: Callable[[], T]) -> T:
 
 
 def compare_version_util(left: str, right: str) -> int:
-    def version_parts(version: str) -> list[int]:
-        result = re.match(r"^(\d+(?:\.\d+)*)", version)
+    def version_parts(version: str) -> tuple[list[int], str]:
+        result = re.match(r"^(\d+(?:\.\d+)*)(.*)$", version)
         if not result:
             raise ValueError(f"Failed to parse version: {version}")
-        return [int(part) for part in result.group(1).split(".")]
+        return [int(part) for part in result.group(1).split(".")], result.group(2)
 
-    left_parts = version_parts(left)
-    right_parts = version_parts(right)
+    left_parts, left_suffix = version_parts(left)
+    right_parts, right_suffix = version_parts(right)
     max_length = max(len(left_parts), len(right_parts))
     left_parts.extend([0] * (max_length - len(left_parts)))
     right_parts.extend([0] * (max_length - len(right_parts)))
-    return (left_parts > right_parts) - (left_parts < right_parts)
+    if left_parts != right_parts:
+        return (left_parts > right_parts) - (left_parts < right_parts)
+    if left_suffix == right_suffix:
+        return 0
+    if left_suffix == "":
+        return 1
+    if right_suffix == "":
+        return -1
+    return (left_suffix > right_suffix) - (left_suffix < right_suffix)
 
 
 def acquire_util(name: str, key: str) -> str:

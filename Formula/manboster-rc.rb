@@ -12,8 +12,7 @@ class ManbosterRc < Formula
   keg_only :versioned_formula
 
   def install
-    executable = Dir["manboster*"].first
-    bin.install executable => "manboster"
+    bin.install "manboster"
     chmod 0755, bin/"manboster"
   end
 

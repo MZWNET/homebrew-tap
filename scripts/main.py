@@ -111,81 +111,114 @@ def update_kiro_rs() -> None:
 
 
 def update_manboster() -> None:
-    def version(version: str) -> str:
-        version = version.replace("-SNAPSHOT-", ",")
-        return re.sub(
-            r"^(\d+(?:\.\d+)*-[A-Za-z][A-Za-z0-9.]*)-([0-9a-f]{6,})$",
-            r"\1,\2",
-            version,
-        )
+    formula_by_release_type: dict[str, str] = {
+        "stable": "Formula/manboster",
+        "rc": "Formula/manboster-rc",
+        "beta": "Formula/manboster-beta",
+        "canary": "Formula/manboster-canary",
+    }
+    asset_pattern_by_release_type: dict[str, re.Pattern[str]] = {
+        "stable": re.compile(
+            r"^manboster_(?P<version>\d+(?:\.\d+)*)_darwin_arm64\.tar\.gz$"
+        ),
+        "rc": re.compile(
+            r"^manboster_(?P<version>\d+(?:\.\d+)*-rc)_darwin_arm64\.tar\.gz$"
+        ),
+        "beta": re.compile(
+            r"^manboster_(?P<version>\d+(?:\.\d+)*-beta)_darwin_arm64\.tar\.gz$"
+        ),
+        "canary": re.compile(
+            r"^manboster_(?P<version>\d+(?:\.\d+)*)-(?P<commit>[0-9a-f]{6,40})_darwin_arm64\.tar\.gz$"
+        ),
+    }
 
-    def asset_info(release: dict[str, Any], release_type: str) -> dict[str, str]:
+    def release_type(tag_name: str) -> str:
+        if tag_name == "canary":
+            return "canary"
+        if tag_name.endswith("-rc"):
+            return "rc"
+        if tag_name.endswith("-beta"):
+            return "beta"
+        return "stable"
+
+    def asset_info(release: dict[str, Any], release_type_name: str) -> dict[str, str]:
+        asset_pattern = asset_pattern_by_release_type[release_type_name]
         for asset in release["assets"]:
-            if (
-                "darwin_arm64" not in asset["name"]
-                and "darwin-arm64" not in asset["name"]
-            ):
+            version_match = asset_pattern.match(asset["name"])
+            if version_match is None:
                 continue
-            version_match = re.match(
-                r"^manboster_(?P<version>.+)_darwin_arm64\.tar\.gz$",
-                asset["name"],
-            )
-            if not version_match:
-                version_match = re.match(
-                    r"^manboster-(?P<version>\d+(?:\.\d+)*)(?:-.+)?-darwin-arm64$",
-                    asset["name"],
-                )
-            if not version_match:
-                continue
+            version = version_match.group("version")
+            if release_type_name == "canary":
+                version = f"{version},{version_match.group('commit')}"
             return {
-                "version": version(version_match.group("version")),
+                "version": version,
                 "url": asset["browser_download_url"],
             }
         raise ValueError(
-            f"Failed to find the correct asset for manboster {release_type}"
+            f"Failed to find the correct asset for manboster {release_type_name}"
         )
 
-    formula: dict[str, str] = {
-        "stable": "Formula/manboster",
-        "rc": "Formula/manboster-rc",
-        "nightly": "Formula/manboster-nightly",
-    }
     releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
             "https://api.github.com/repos/manboster/manboster/releases?per_page=100",
             headers=headers,
         ).json()
     )
-    release: dict[str, dict[str, Any]] = {
-        "stable": {},
-        "rc": {},
-        "nightly": {},
+    release_by_type: dict[str, dict[str, Any]] = {
+        release_type_name: {} for release_type_name in formula_by_release_type
     }
     for r in releases:
-        tag_name = r["tag_name"]
-        if tag_name == "canary":
-            continue
-        elif "-rc" in tag_name and release["rc"] == {}:
-            release["rc"] = r
-        elif "nightly-" in tag_name and release["nightly"] == {}:
-            release["nightly"] = r
-        elif release["stable"] == {}:
-            release["stable"] = r
+        type_name = release_type(r["tag_name"])
+        if release_by_type[type_name] == {}:
+            release_by_type[type_name] = r
 
-    missing = [release_type for release_type, value in release.items() if value == {}]
+    missing = [
+        release_type_name
+        for release_type_name, value in release_by_type.items()
+        if value == {} and release_type_name != "beta"
+    ]
     if missing:
         raise ValueError(f"Failed to find manboster releases: {', '.join(missing)}")
 
-    stable_info = asset_info(release["stable"], "stable")
-    rc_info = asset_info(release["rc"], "rc")
-    if compare_version_util(stable_info["version"], rc_info["version"]) > 0:
-        release["rc"] = release["stable"]
-
-    for release_type, formula_name in formula.items():
-        info = asset_info(release[release_type], release_type)
-        sha256 = retry_util(
-            lambda: github_sha256_util(release[release_type], info["url"])
+    info_by_type = {
+        release_type_name: asset_info(
+            release_by_type[release_type_name], release_type_name
         )
+        for release_type_name in formula_by_release_type
+        if release_by_type[release_type_name] != {}
+    }
+
+    def newest_release_type(candidates: list[str]) -> str:
+        newest_type = candidates[0]
+        for candidate in candidates[1:]:
+            if (
+                compare_version_util(
+                    info_by_type[candidate]["version"],
+                    info_by_type[newest_type]["version"],
+                )
+                > 0
+            ):
+                newest_type = candidate
+        return newest_type
+
+    source_type_by_release_type: dict[str, str] = {
+        "stable": "stable",
+        "rc": newest_release_type(["stable", "rc"]),
+        "beta": newest_release_type(
+            [
+                release_type_name
+                for release_type_name in ("stable", "rc", "beta")
+                if release_type_name in info_by_type
+            ]
+        ),
+        "canary": "canary",
+    }
+
+    for release_type_name, formula_name in formula_by_release_type.items():
+        source_type = source_type_by_release_type[release_type_name]
+        release = release_by_type[source_type]
+        info = info_by_type[source_type]
+        sha256 = retry_util(lambda: github_sha256_util(release, info["url"]))
         update_util(formula_name, ver=info["version"], url=info["url"], sha256=sha256)
 
 

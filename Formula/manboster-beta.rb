@@ -1,9 +1,9 @@
-class ManbosterNightly < Formula
+class ManbosterBeta < Formula
   desc "你的曼波虾头小助手"
   homepage "https://manboster.dev/"
-  url "https://github.com/manboster/manboster/releases/download/nightly-20260615/manboster_0.1.0-SNAPSHOT-982237c_darwin_arm64.tar.gz"
-  version "0.1.0,982237c"
-  sha256 "76420a725035884e852a76f9967591673fa6c4c2bad08df1707684093c3575a8"
+  url "https://github.com/manboster/manboster/releases/download/v0.2.0-rc/manboster_0.2.0-rc_darwin_arm64.tar.gz"
+  version "0.2.0-rc"
+  sha256 "7c913a34218a73a18b980c7dda5c1542e34f987c5a155aa1581c4755bf9d3c68"
   license "Apache-2.0"
   head "https://github.com/manboster/manboster.git", branch: "master"
 
@@ -12,8 +12,7 @@ class ManbosterNightly < Formula
   keg_only :versioned_formula
 
   def install
-    executable = Dir["manboster*"].first
-    bin.install executable => "manboster"
+    bin.install "manboster"
     chmod 0755, bin/"manboster"
   end
 
