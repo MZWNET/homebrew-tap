@@ -262,7 +262,7 @@ def update_samloader_rs() -> None:
             headers=headers,
         ).json()
     )
-    url = f"https://github.com/topjohnwu/samloader-rs/releases/download/{release['tag_name']}/samloader-macos-universal.tar.xz"
+    url = f"https://github.com/topjohnwu/samloader-rs/releases/download/{release['tag_name']}/samloader-v{release['tag_name']}-macos-universal.tar.xz"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Formula/samloader-rs", ver=release["tag_name"], url=url, sha256=sha256)
 
