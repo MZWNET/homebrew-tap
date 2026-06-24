@@ -1,8 +1,8 @@
 cask "sfm-latest" do
-  version "1.14.0-alpha.33"
-  sha256 "3aaa9b9fe908c74c7b5ba57d4679cd7ccaa958aaeec27a879b376f93ed13304f"
+  version "1.14.0-alpha.34"
+  sha256 "baef7fd33e86500c99b9ade0a20afe8e93f677af1eba93476841f9daa80813fe"
 
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-alpha.33/SFM-1.14.0-alpha.33-Apple.pkg",
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-alpha.34/SFM-1.14.0-alpha.34-Apple.pkg",
       verified: "github.com/SagerNet/sing-box/"
   name "SFM"
   desc "Standalone client for sing-box, the universal proxy platform"

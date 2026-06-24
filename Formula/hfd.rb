@@ -1,9 +1,9 @@
 class Hfd < Formula
   desc "Huggingface Model Downloader"
   homepage "https://gist.github.com/padeoe/697678ab8e528b85a2a7bddafea1fa4f"
-  url "https://gist.github.com/padeoe/697678ab8e528b85a2a7bddafea1fa4f/raw/586ba3e6a5f828e5968e42a8daf23a2b8987aab3/hfd.sh"
-  version "0.0.41_586ba3e"
-  sha256 "051a227e92500e286cd8802674780840de9542a1d2e3232da9fd5094d0cadde8"
+  url "https://gist.github.com/padeoe/697678ab8e528b85a2a7bddafea1fa4f/raw/dcc19a065877cb1c75d22b7c5662845e8c8df203/hfd.sh"
+  version "0.0.42_dcc19a0"
+  sha256 "524894ef4f8e82da6180156a96bd9678d56d77e877b7f69a9d253da97d28866f"
   head "https://gist.github.com/697678ab8e528b85a2a7bddafea1fa4f.git"
 
   def install

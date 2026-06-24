@@ -1,9 +1,9 @@
 class SamloaderRs < Formula
   desc "Download firmware for Samsung devices"
   homepage "https://github.com/topjohnwu/samloader-rs"
-  url "https://github.com/topjohnwu/samloader-rs/releases/download/1.2.0/samloader-macos-universal.tar.xz"
-  version "1.2.0"
-  sha256 "0809701992136096c906a992dc4af1272921cef3c37be071c57c2bb03da53b58"
+  url "https://github.com/topjohnwu/samloader-rs/releases/download/2.0.0/samloader-v2.0.0-macos-universal.tar.xz"
+  version "2.0.0"
+  sha256 "7afc22fc9885e762b7a06a979cccc93c55b1baae85f0412933f97a3441df1141"
   license "Apache-2.0, MIT"
   head "https://github.com/topjohnwu/samloader-rs.git", branch: "main"
 
