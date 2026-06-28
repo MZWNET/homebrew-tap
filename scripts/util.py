@@ -58,6 +58,29 @@ def compare_version_util(left: str, right: str) -> int:
     return (left_suffix > right_suffix) - (left_suffix < right_suffix)
 
 
+def fallback_source_util(
+    info_by_type: dict[str, dict[str, str]],
+    fallback_by_target: dict[str, list[str]],
+) -> dict[str, str]:
+    source_by_target: dict[str, str] = {}
+    for target, candidates in fallback_by_target.items():
+        available = [candidate for candidate in candidates if candidate in info_by_type]
+        if not available:
+            raise ValueError(f"Failed to find fallback source: {target}")
+        newest_type = available[0]
+        for candidate in available[1:]:
+            if (
+                compare_version_util(
+                    info_by_type[candidate]["version"],
+                    info_by_type[newest_type]["version"],
+                )
+                > 0
+            ):
+                newest_type = candidate
+        source_by_target[target] = newest_type
+    return source_by_target
+
+
 def acquire_util(name: str, key: str) -> str:
     if not Path("../" + name + ".rb").exists():
         return ""

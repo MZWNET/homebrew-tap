@@ -10,7 +10,7 @@ from util import (
     sha256_util,
     github_sha256_util,
     git_util,
-    compare_version_util,
+    fallback_source_util,
 )
 
 token: str | None = os.environ.get("GITHUB_TOKEN")
@@ -47,17 +47,108 @@ def update_hfd() -> None:
     update_util("Formula/hfd", ver=release["version"], url=url, sha256=sha256)
 
 
-def update_sing_box_latest() -> None:
-    release: dict[str, Any] = retry_util(
+def update_sing_box() -> None:
+    def sing_box_formula_sources(
+        releases: list[dict[str, Any]],
+    ) -> dict[str, dict[str, Any]]:
+        release_by_type: dict[str, dict[str, Any]] = {
+            "stable": {},
+            "beta": {},
+            "alpha": {},
+        }
+
+        def release_type(tag_name: str) -> str:
+            version = tag_name.removeprefix("v")
+            if re.match(r"^\d+(?:\.\d+)*-alpha(?:\.\d+)*$", version):
+                return "alpha"
+            if re.match(r"^\d+(?:\.\d+)*-beta(?:\.\d+)*$", version):
+                return "beta"
+            if re.match(r"^\d+(?:\.\d+)*$", version):
+                return "stable"
+            return ""
+
+        def asset_info(release: dict[str, Any]) -> dict[str, str]:
+            version = release["tag_name"].removeprefix("v")
+            asset_name = f"sing-box-{version}-darwin-arm64.tar.gz"
+            for asset in release["assets"]:
+                if asset["name"] != asset_name:
+                    continue
+                return {
+                    "version": version,
+                    "url": asset["browser_download_url"],
+                }
+            raise ValueError(f"Failed to find the correct asset for sing-box {version}")
+
+        for release in releases:
+            type_name = release_type(release["tag_name"])
+            if type_name and release_by_type[type_name] == {}:
+                release_by_type[type_name] = release
+
+        info_by_type = {
+            release_type_name: asset_info(release)
+            for release_type_name, release in release_by_type.items()
+            if release != {}
+        }
+
+        source_type_by_channel = fallback_source_util(
+            info_by_type,
+            {
+                "alpha": ["alpha", "beta", "stable"],
+                "beta": ["beta", "stable"],
+            },
+        )
+
+        return {
+            channel: {
+                "release": release_by_type[source_type],
+                "version": info_by_type[source_type]["version"],
+                "url": info_by_type[source_type]["url"],
+            }
+            for channel, source_type in source_type_by_channel.items()
+        }
+
+    releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
-            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
+            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=100",
             headers=headers,
         ).json()
-    )[0]
-    version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/sing-box-{version}-darwin-arm64.tar.gz"
-    sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Formula/sing-box-latest", ver=version, url=url, sha256=sha256)
+    )
+    formula_by_channel: dict[str, str] = {
+        "alpha": "Formula/sing-box-alpha",
+        "beta": "Formula/sing-box-beta",
+    }
+    cask_by_channel: dict[str, str] = {
+        "alpha": "Casks/sfm-alpha",
+        "beta": "Casks/sfm-beta",
+    }
+    sources = sing_box_formula_sources(releases)
+
+    def sfm_asset_url(release: dict[str, Any], version: str) -> str:
+        asset_name = f"SFM-{version}-Apple.pkg"
+        for asset in release["assets"]:
+            if asset["name"] == asset_name:
+                return asset["browser_download_url"]
+        raise ValueError(f"Failed to find the correct asset for SFM {version}")
+
+    for channel, source in sources.items():
+        sha256 = retry_util(
+            lambda: github_sha256_util(source["release"], source["url"])
+        )
+        update_util(
+            formula_by_channel[channel],
+            ver=source["version"],
+            url=source["url"],
+            sha256=sha256,
+        )
+    for channel, source in sources.items():
+        sfm_url = sfm_asset_url(source["release"], source["version"])
+        sfm_sha256 = retry_util(lambda: github_sha256_util(source["release"], sfm_url))
+        update_util(
+            cask_by_channel[channel],
+            ver=source["version"],
+            url=sfm_url,
+            sha256=sfm_sha256,
+        )
 
 
 def update_gryph() -> None:
@@ -188,31 +279,15 @@ def update_manboster() -> None:
         if release_by_type[release_type_name] != {}
     }
 
-    def newest_release_type(candidates: list[str]) -> str:
-        newest_type = candidates[0]
-        for candidate in candidates[1:]:
-            if (
-                compare_version_util(
-                    info_by_type[candidate]["version"],
-                    info_by_type[newest_type]["version"],
-                )
-                > 0
-            ):
-                newest_type = candidate
-        return newest_type
-
-    source_type_by_release_type: dict[str, str] = {
-        "stable": "stable",
-        "rc": newest_release_type(["stable", "rc"]),
-        "beta": newest_release_type(
-            [
-                release_type_name
-                for release_type_name in ("stable", "rc", "beta")
-                if release_type_name in info_by_type
-            ]
-        ),
-        "canary": "canary",
-    }
+    source_type_by_release_type = fallback_source_util(
+        info_by_type,
+        {
+            "stable": ["stable"],
+            "rc": ["rc", "stable"],
+            "beta": ["beta", "rc", "stable"],
+            "canary": ["canary"],
+        },
+    )
 
     for release_type_name, formula_name in formula_by_release_type.items():
         source_type = source_type_by_release_type[release_type_name]
@@ -277,25 +352,10 @@ def update_cloudflarespeedtest() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/XIU2/CloudflareSpeedTest/releases/download/v{version}/cfst_darwin_arm64.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util(
-        "Formula/cloudflarespeedtest", ver=version, url=url, sha256=sha256
-    )
+    update_util("Formula/cloudflarespeedtest", ver=version, url=url, sha256=sha256)
 
 
 # Casks
-def update_sfm_latest() -> None:
-    release: dict[str, Any] = retry_util(
-        lambda: requests.get(
-            "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=1",
-            headers=headers,
-        ).json()
-    )[0]
-    version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/SagerNet/sing-box/releases/download/v{version}/SFM-{version}-Apple.pkg"
-    sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/sfm-latest", ver=version, url=url, sha256=sha256)
-
-
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
@@ -453,8 +513,7 @@ if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
         update_hfd,
-        update_sing_box_latest,
-        update_sfm_latest,
+        update_sing_box,
         update_gryph,
         update_cliproxyapiplus,
         update_kiro_rs,

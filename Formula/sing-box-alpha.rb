@@ -1,13 +1,15 @@
-class SingBoxLatest < Formula
+class SingBoxAlpha < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
   url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-alpha.36/sing-box-1.14.0-alpha.36-darwin-arm64.tar.gz"
   version "1.14.0-alpha.36"
   sha256 "6dc18eb29b6d25c894ec31e554bf7aec8f8178fcb793339768a63b0c23fa2ad9"
   license "GPL-3.0-or-later"
-  head "https://github.com/SagerNet/sing-box.git", branch: "dev-next"
+  head "https://github.com/SagerNet/sing-box.git", branch: "testing"
 
   conflicts_with "sing-box"
+
+  keg_only :versioned_formula
 
   def install
     bin.install "sing-box"
