@@ -8,7 +8,10 @@ cask "sfm-beta" do
   desc "Standalone client for sing-box, the universal proxy platform"
   homepage "https://sing-box.sagernet.org/"
 
-  conflicts_with "SFM"
+  conflicts_with cask: [
+    "sfm",
+    "sfm-alpha",
+  ]
 
   pkg "SFM-#{version}-Apple.pkg"
 
