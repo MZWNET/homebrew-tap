@@ -118,8 +118,8 @@ def update_sing_box() -> None:
         "beta": "Formula/sing-box-beta",
     }
     cask_by_channel: dict[str, str] = {
-        "alpha": "Casks/sfm-alpha",
-        "beta": "Casks/sfm-beta",
+        "alpha": "Casks/sfm@alpha",
+        "beta": "Casks/sfm@beta",
     }
     sources = sing_box_formula_sources(releases)
 
