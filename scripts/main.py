@@ -267,6 +267,21 @@ def update_samloader_rs() -> None:
     update_util("Formula/samloader-rs", ver=release["tag_name"], url=url, sha256=sha256)
 
 
+def update_cloudflarespeedtest() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/XIU2/CloudflareSpeedTest/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/XIU2/CloudflareSpeedTest/releases/download/v{version}/cfst_darwin_arm64.zip"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util(
+        "Formula/cloudflarespeedtest", ver=version, url=url, sha256=sha256
+    )
+
+
 # Casks
 def update_sfm_latest() -> None:
     release: dict[str, Any] = retry_util(
@@ -447,6 +462,7 @@ if __name__ == "__main__":
         update_crossover_trial_reset,
         update_hydroxide,
         update_samloader_rs,
+        update_cloudflarespeedtest,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
