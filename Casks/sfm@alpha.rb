@@ -1,4 +1,4 @@
-cask "sfm-alpha" do
+cask "sfm@alpha" do
   version "1.14.0-alpha.36"
   sha256 "07cf0f78741bb5519348b4ad8745d7156734664fcea37ce3784f3eec864c858b"
 
