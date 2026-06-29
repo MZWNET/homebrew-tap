@@ -355,6 +355,19 @@ def update_cloudflarespeedtest() -> None:
     update_util("Formula/cloudflarespeedtest", ver=version, url=url, sha256=sha256)
 
 
+def update_cloudflarewarpspeedtest() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/puzige/CloudflareWarpSpeedTest/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/puzige/CloudflareWarpSpeedTest/releases/download/v{version}/CloudflareWarpSpeedTest-v{version}-darwin-arm64.tar.gz"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Formula/cloudflarewarpspeedtest", ver=version, url=url, sha256=sha256)
+
+
 # Casks
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
@@ -522,6 +535,7 @@ if __name__ == "__main__":
         update_hydroxide,
         update_samloader_rs,
         update_cloudflarespeedtest,
+        update_cloudflarewarpspeedtest,
         update_bifrost,
         update_bewlycat,
         update_xmcl,
