@@ -1,9 +1,9 @@
 class StableDiffusionCpp < Formula
   desc "Diffusion model(SD,Flux,Wan,Qwen Image,Z-Image,...) inference in pure C/C++"
   homepage "https://github.com/leejet/stable-diffusion.cpp"
-  url "https://github.com/MZWNET/actions/releases/download/sd-master-737-3b6c9ca/sd-master-737-3b6c9ca-bin-macos-metal-arm64.zip"
-  version "0.0.737_3b6c9ca"
-  sha256 "77ed4ca2c40a4f019be6e513564a55670ee0bd3143d1b8d9cd8482723dde40b8"
+  url "https://github.com/MZWNET/actions/releases/download/sd-master-741-484baa4/sd-master-741-484baa4-bin-macos-metal-arm64.zip"
+  version "0.0.741_484baa4"
+  sha256 "43b0472f670cad189e863d1bf38b0a4ce05ae2953c0e8f8ac58ea2430ef3b4d3"
   license "MIT"
   head "https://github.com/leejet/stable-diffusion.cpp.git"
 
