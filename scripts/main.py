@@ -536,7 +536,7 @@ if __name__ == "__main__":
         update_samloader_rs,
         update_cloudflarespeedtest,
         update_cloudflarewarpspeedtest,
-        update_bifrost,
+        # update_bifrost,
         update_bewlycat,
         update_xmcl,
         update_piliplus,
