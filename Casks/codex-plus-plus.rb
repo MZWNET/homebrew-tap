@@ -1,8 +1,8 @@
 cask "codex-plus-plus" do
-  version "1.2.37"
-  sha256 "04dd891a38228e8b3eb60fc33371d87f6fe29971a16a314f5589dca3a3111d91"
+  version "1.2.38"
+  sha256 "22b173b1cdfdffbbf447b8a8c29767031b25f6f5a0fe22bcc83ae5f64a7734c7"
 
-  url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v1.2.37/CodexPlusPlus-1.2.37-macos-arm64.dmg",
+  url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v1.2.38/CodexPlusPlus-1.2.38-macos-arm64.dmg",
       verified: "github.com/BigPizzaV3/CodexPlusPlus/"
   name "Codex++"
   desc "An enhanced tool for CodexApp, striving to make Codex better to use and more comfortable"
