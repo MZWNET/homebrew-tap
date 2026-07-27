@@ -1,13 +1,13 @@
-from pathlib import Path
-import time
-import re
 import hashlib
-import requests
-import subprocess
+import re
 import shutil
-from typing import Any, Callable, TypeVar
+import subprocess
+import time
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
 
-T = TypeVar("T")
+import requests
 
 
 def update_util(name: str, **kwargs: str) -> None:
@@ -26,11 +26,11 @@ def update_util(name: str, **kwargs: str) -> None:
         file.write(content)
 
 
-def retry_util(func: Callable[[], T]) -> T:
+def retry_util[T](func: Callable[[], T]) -> T:
     for _ in range(3):
         try:
             return func()
-        except Exception:
+        except Exception:  # noqa: BLE001 - retry arbitrary callables by design
             time.sleep(5)
     raise RuntimeError("Reached maximum number of retries")
 

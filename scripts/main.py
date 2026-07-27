@@ -1,16 +1,20 @@
-import requests
 import os
 import re
-from typing import Any
 from concurrent.futures import ThreadPoolExecutor
+from functools import partial
+from typing import Any
+
+import requests
+
+# isort: split
 from util import (
-    update_util,
-    retry_util,
     acquire_util,
-    sha256_util,
-    github_sha256_util,
-    git_util,
     fallback_source_util,
+    git_util,
+    github_sha256_util,
+    retry_util,
+    sha256_util,
+    update_util,
 )
 
 token: str | None = os.environ.get("GITHUB_TOKEN")
@@ -132,7 +136,7 @@ def update_sing_box() -> None:
 
     for channel, source in sources.items():
         sha256 = retry_util(
-            lambda: github_sha256_util(source["release"], source["url"])
+            partial(github_sha256_util, source["release"], source["url"])
         )
         update_util(
             formula_by_channel[channel],
@@ -142,7 +146,9 @@ def update_sing_box() -> None:
         )
     for channel, source in sources.items():
         sfm_url = sfm_asset_url(source["release"], source["version"])
-        sfm_sha256 = retry_util(lambda: github_sha256_util(source["release"], sfm_url))
+        sfm_sha256 = retry_util(
+            partial(github_sha256_util, source["release"], sfm_url)
+        )
         update_util(
             cask_by_channel[channel],
             ver=source["version"],
@@ -293,7 +299,7 @@ def update_manboster() -> None:
         source_type = source_type_by_release_type[release_type_name]
         release = release_by_type[source_type]
         info = info_by_type[source_type]
-        sha256 = retry_util(lambda: github_sha256_util(release, info["url"]))
+        sha256 = retry_util(partial(github_sha256_util, release, info["url"]))
         update_util(formula_name, ver=info["version"], url=info["url"], sha256=sha256)
 
 

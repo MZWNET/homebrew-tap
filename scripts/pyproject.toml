@@ -3,7 +3,7 @@ name = "homebrew-tap-scripts"
 version = "0.0.1"
 description = "An update script for my Homebrew taps."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = [
     "requests>=2.34.2",
 ]
