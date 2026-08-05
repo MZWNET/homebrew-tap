@@ -550,7 +550,7 @@ if __name__ == "__main__":
         update_bakamusic,
         update_kelivo,
         update_websocket_reflector_x,
-        update_memoh,
+        # update_memoh,
         update_codex_plus_plus,
     ]
     with ThreadPoolExecutor() as executor:
