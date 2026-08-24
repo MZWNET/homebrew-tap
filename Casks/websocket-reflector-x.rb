@@ -1,8 +1,8 @@
 cask "websocket-reflector-x" do
-  version "0.6.0"
-  sha256 "b3d720a8a0256fe0928d5cbd8cc23453be57a932b123aa830f0586e98471eab2"
+  version "0.6.1"
+  sha256 "b928da8a21a4eeaf8728129f2d9719026f2393d32e36c50920c04f243d3ecbb1"
 
-  url "https://github.com/XDSEC/WebSocketReflectorX/releases/download/0.6.0/WebSocketReflectorX-0.6.0-macos-aarch64.dmg",
+  url "https://github.com/XDSEC/WebSocketReflectorX/releases/download/0.6.1/WebSocketReflectorX-0.6.1-macos-aarch64.dmg",
       verified: "github.com/XDSEC/WebSocketReflectorX/"
   name "WebSocketReflectorX"
   desc "Controlled TCP-over-WebSocket forwarding tunnel"
