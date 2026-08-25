@@ -1,4 +1,4 @@
-cask "sfm@alpha" do
+cask "sfm@rc" do
   version "1.14.0-rc.1"
   sha256 "2704eb2a33766874991301ce0b3a9300639631269beac37289cfab35dbc3134d"
 
@@ -10,8 +10,8 @@ cask "sfm@alpha" do
 
   conflicts_with cask: [
     "sfm",
+    "sfm@alpha",
     "sfm@beta",
-    "sfm@rc",
   ]
   depends_on macos: :ventura
 

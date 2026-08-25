@@ -1,4 +1,4 @@
-class SingBoxAlpha < Formula
+class SingBoxRc < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
   url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-rc.1/sing-box-1.14.0-rc.1-darwin-arm64.tar.gz"

@@ -1,8 +1,8 @@
 cask "sfm@beta" do
-  version "1.14.0-beta.17"
-  sha256 "0aa780b8bb36fee43ed3982ac2dd44d2d28f8efd338abbcb74aca235c86f8a4c"
+  version "1.14.0-rc.1"
+  sha256 "2704eb2a33766874991301ce0b3a9300639631269beac37289cfab35dbc3134d"
 
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-beta.17/SFM-1.14.0-beta.17-Apple.pkg",
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-rc.1/SFM-1.14.0-rc.1-Apple.pkg",
       verified: "github.com/SagerNet/sing-box/"
   name "SFM"
   desc "Standalone client for sing-box, the universal proxy platform"
@@ -10,8 +10,10 @@ cask "sfm@beta" do
 
   conflicts_with cask: [
     "sfm",
-    "sfm-alpha",
+    "sfm@alpha",
+    "sfm@rc",
   ]
+  depends_on macos: :ventura
 
   pkg "SFM-#{version}-Apple.pkg"
 

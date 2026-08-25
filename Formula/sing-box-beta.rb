@@ -1,15 +1,15 @@
 class SingBoxBeta < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-beta.17/sing-box-1.14.0-beta.17-darwin-arm64.tar.gz"
-  version "1.14.0-beta.17"
-  sha256 "7990d08ca63110df7a1f3fcf2d26e9430a9db2126e85dc2a723601956df9b458"
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0-rc.1/sing-box-1.14.0-rc.1-darwin-arm64.tar.gz"
+  version "1.14.0-rc.1"
+  sha256 "0c57457917ad529da4af939a3da5e0ad1cfa639c140dd3de7b6248aef2170bcd"
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "testing"
 
-  conflicts_with "sing-box"
-
   keg_only :versioned_formula
+
+  conflicts_with "sing-box"
 
   def install
     bin.install "sing-box"

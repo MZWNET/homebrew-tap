@@ -57,6 +57,7 @@ def update_sing_box() -> None:
     ) -> dict[str, dict[str, Any]]:
         release_by_type: dict[str, dict[str, Any]] = {
             "stable": {},
+            "rc": {},
             "beta": {},
             "alpha": {},
         }
@@ -67,6 +68,8 @@ def update_sing_box() -> None:
                 return "alpha"
             if re.match(r"^\d+(?:\.\d+)*-beta(?:\.\d+)*$", version):
                 return "beta"
+            if re.match(r"^\d+(?:\.\d+)*-rc(?:\.\d+)*$", version):
+                return "rc"
             if re.match(r"^\d+(?:\.\d+)*$", version):
                 return "stable"
             return ""
@@ -97,8 +100,9 @@ def update_sing_box() -> None:
         source_type_by_channel = fallback_source_util(
             info_by_type,
             {
-                "alpha": ["alpha", "beta", "stable"],
-                "beta": ["beta", "stable"],
+                "alpha": ["alpha", "beta", "rc", "stable"],
+                "beta": ["beta", "rc", "stable"],
+                "rc": ["rc", "stable"],
             },
         )
 
@@ -120,10 +124,12 @@ def update_sing_box() -> None:
     formula_by_channel: dict[str, str] = {
         "alpha": "Formula/sing-box-alpha",
         "beta": "Formula/sing-box-beta",
+        "rc": "Formula/sing-box-rc",
     }
     cask_by_channel: dict[str, str] = {
         "alpha": "Casks/sfm@alpha",
         "beta": "Casks/sfm@beta",
+        "rc": "Casks/sfm@rc",
     }
     sources = sing_box_formula_sources(releases)
 
