@@ -1,8 +1,8 @@
 cask "piliplus" do
-  version "2.1.1,5231"
-  sha256 "a0bd3e2af8d77defc447aa4f3ac6151b7a05b92bf061a3afa69fbdf52223cb16"
+  version "2.1.2,5241"
+  sha256 "4dd9e0cd939bbf359afe34b1c7e0e0362cdc20de88d71261ecfc2e13aef7ad84"
 
-  url "https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/2.1.1.2/PiliPlus_macos_2.1.1%2B5231.dmg",
+  url "https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/2.1.2/PiliPlus_macos_2.1.2%2B5241.dmg",
       verified: "github.com/bggRGjQaUbCoE/PiliPlus/"
   name "PiliPlus"
   desc "Third-party BiliBili client developed with Flutter"
