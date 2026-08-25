@@ -13,15 +13,15 @@ cask "xmcl" do
     strategy :header_match
   end
 
-  app "X Minecraft Launcher.app"
+  app "XMCL.app"
 
   postflight do
-    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/X Minecraft Launcher.app"]
-    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/X Minecraft Launcher.app"]
+    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/XMCL.app"]
+    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/XMCL.app"]
   end
 
   zap trash: [
-    "~/Applications/X Minecraft Launcher.app",
+    "~/Applications/XMCL.app",
     "~/Library/Application Support/xmcl",
     "~/Library/Preferences/xmcl.plist",
     "~/Library/Saved Application State/xmcl.savedState",
