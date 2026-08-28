@@ -1,9 +1,9 @@
 class Gryph < Formula
   desc "About Security layer for AI coding agents"
   homepage "https://github.com/safedep/gryph"
-  url "https://github.com/safedep/gryph/releases/download/v0.7.0/gryph_Darwin_all.tar.gz"
-  version "0.7.0"
-  sha256 "07e6827409e3f2b5b41b8f6ffa4651e343489563f26c28c09808af0794165077"
+  url "https://github.com/safedep/gryph/releases/download/v0.9.0/gryph_Darwin_all.tar.gz"
+  version "0.9.0"
+  sha256 "631cb8d008228ee5e8bc70e6875b2ebc182d4f50075562295e66b1db06e21431"
   license "Apache-2.0"
   head "https://github.com/safedep/gryph.git"
 
