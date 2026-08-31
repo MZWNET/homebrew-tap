@@ -532,6 +532,29 @@ def update_codex_plus_plus() -> None:
     update_util("Casks/codex-plus-plus", ver=version, url=url, sha256=sha256)
 
 
+def update_magic_context_dashboard() -> None:
+    releases: list[dict[str, Any]] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/cortexkit/magic-context/releases?per_page=100",
+            headers=headers,
+        ).json()
+    )
+    release: dict[str, Any] = {}
+    for r in releases:
+        if r["tag_name"].startswith("dashboard-v"):
+            release = r
+            break
+    if release == {}:
+        raise ValueError(
+            "Failed to find the correct release for Magic Context Dashboard."
+        )
+    version = release["tag_name"].replace("dashboard-v", "")
+    url = f"https://github.com/cortexkit/magic-context/releases/download/dashboard-v{version}/magic-context-dashboard-darwin-arm64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    # The cask interpolates #{version} into its url, so only bump version/sha256.
+    update_util("Casks/magic-context-dashboard", ver=version, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -556,6 +579,7 @@ if __name__ == "__main__":
         update_websocket_reflector_x,
         # update_memoh,
         update_codex_plus_plus,
+        update_magic_context_dashboard,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
