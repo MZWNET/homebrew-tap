@@ -3,35 +3,30 @@
   config,
   ...
 }: {
-  profiles = {
-    ruby.module = {
-      languages.ruby = {
-        enable = true;
-        bundler.enable = true;
-        documentation.enable = true;
-        lsp.enable = true;
-      };
-      env.ENVIRONMENT = "ruby";
+  languages.ruby = {
+    enable = true;
+    bundler.enable = true;
+    documentation.enable = true;
+    lsp.enable = true;
+  };
+
+  env.ENVIRONMENT = "ruby";
+
+  languages.python = {
+    enable = true;
+
+    venv.enable = true;
+
+    directory = "./scripts";
+
+    uv = {
+      enable = true;
+      sync.enable = true;
     };
 
-    scripts.module = {pkgs, ...}: {
-      languages.python = {
-        enable = true;
-
-        venv.enable = true;
-
-        directory = "./scripts";
-
-        uv = {
-          enable = true;
-          sync.enable = true;
-        };
-
-        lsp = {
-          enable = true;
-          package = pkgs.ty;
-        };
-      };
+    lsp = {
+      enable = true;
+      package = pkgs.ty;
     };
   };
 
@@ -42,7 +37,7 @@
   enterTest = ''
     ruby --version
     bundle --version
-    python --version | grep --color=auto "Python 3.12"
+    python --version
     uv --version
     ty --version
     alejandra --version

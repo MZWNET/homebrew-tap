@@ -152,9 +152,7 @@ def update_sing_box() -> None:
         )
     for channel, source in sources.items():
         sfm_url = sfm_asset_url(source["release"], source["version"])
-        sfm_sha256 = retry_util(
-            partial(github_sha256_util, source["release"], sfm_url)
-        )
+        sfm_sha256 = retry_util(partial(github_sha256_util, source["release"], sfm_url))
         update_util(
             cask_by_channel[channel],
             ver=source["version"],
