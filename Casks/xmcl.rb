@@ -2,8 +2,7 @@ cask "xmcl" do
   version "0.68.1"
   sha256 "3b98902f490eb2b4ea32d3807126f5a77f95fe2fde74eba1e3655d217add944d"
 
-  url "https://github.com/Voxelum/x-minecraft-launcher/releases/download/v0.68.1/xmcl-0.68.1-arm64.dmg",
-      verified: "github.com/Voxelum/x-minecraft-launcher/"
+  url "https://github.com/Voxelum/x-minecraft-launcher/releases/download/v0.68.1/xmcl-0.68.1-arm64.dmg"
   name "X Minecraft Launcher"
   desc "Open Source Minecraft Launcher with Modern UX. Provides a Disk Efficient way to manage all your Mods!"
   homepage "https://xmcl.app/"
@@ -15,9 +14,9 @@ cask "xmcl" do
 
   app "XMCL.app"
 
-  postflight do
-    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/XMCL.app"]
-    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/XMCL.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/XMCL.app"]
+    run "/usr/bin/codesign", args: ["-fs", "-", "{{appdir}}/XMCL.app"]
   end
 
   zap trash: [

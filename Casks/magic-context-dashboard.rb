@@ -2,8 +2,7 @@ cask "magic-context-dashboard" do
   version "0.15.0"
   sha256 "c4d2b451a510ac8ea9493a40de1cd1bcdb7edd910458fc3ebc7d99ca5d39e180"
 
-  url "https://github.com/cortexkit/magic-context/releases/download/dashboard-v#{version}/magic-context-dashboard-darwin-arm64.dmg",
-      verified: "github.com/cortexkit/magic-context/"
+  url "https://github.com/cortexkit/magic-context/releases/download/dashboard-v#{version}/magic-context-dashboard-darwin-arm64.dmg"
   name "Magic Context Dashboard"
   desc "Browse Magic Context memories, sessions, cache diagnostics and dream tasks"
   homepage "https://github.com/cortexkit/magic-context"
@@ -15,7 +14,7 @@ cask "magic-context-dashboard" do
   end
 
   auto_updates true
-  depends_on macos: :catalina
+  depends_on :macos
 
   app "Magic Context Dashboard.app"
 

@@ -9,8 +9,8 @@ cask "bewlycat" do
 
   app "BewlyCat.app"
 
-  postflight do
-    system_command "/usr/bin/xattr", args: ["-cr", "/Applications/BewlyCat.app"]
-    system_command "/usr/bin/codesign", args: ["-fs", "-", "/Applications/BewlyCat.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/BewlyCat.app"]
+    run "/usr/bin/codesign", args: ["-fs", "-", "{{appdir}}/BewlyCat.app"]
   end
 end
