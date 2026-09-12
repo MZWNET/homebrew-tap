@@ -13,7 +13,7 @@ cask "pvz-portable" do
   end
 
   depends_on arch: :arm64
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "PvZ Portable.app"
 
