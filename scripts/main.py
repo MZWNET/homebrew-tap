@@ -555,6 +555,19 @@ def update_magic_context_dashboard() -> None:
     update_util("Casks/magic-context-dashboard", ver=version, sha256=sha256)
 
 
+def update_pvz_portable() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/MZWNET/pvz_mac_app/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/MZWNET/pvz_mac_app/releases/download/v{version}/PvZ-Portable-{version}-arm64.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/pvz-portable", ver=version, url=url, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -580,6 +593,7 @@ if __name__ == "__main__":
         # update_memoh,
         update_codex_plus_plus,
         update_magic_context_dashboard,
+        update_pvz_portable,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
