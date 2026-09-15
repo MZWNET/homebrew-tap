@@ -1,9 +1,9 @@
 class SingBoxRc < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
-  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.0/sing-box-1.14.0-darwin-arm64.tar.gz"
-  version "1.14.0"
-  sha256 "a150c94012ff768b7261939cd236b9c8554127f45137230295d23a5660225cc9"
+  url "https://github.com/SagerNet/sing-box/releases/download/v1.14.1/sing-box-1.14.1-darwin-arm64.tar.gz"
+  version "1.14.1"
+  sha256 "b9024642ef7b4848252df5469b7f60ef3c18bb5e217a16a0934f0174f8ad11b4"
   license "GPL-3.0-or-later"
   head "https://github.com/SagerNet/sing-box.git", branch: "testing"
 
