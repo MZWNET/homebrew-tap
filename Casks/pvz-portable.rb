@@ -1,8 +1,8 @@
 cask "pvz-portable" do
-  version "0.2.3"
-  sha256 "294af48681805a952e86e74606a4384fbd8a00db3f27e1e06d376e250e31e239"
+  version "0.2.4"
+  sha256 "2977c68c1d9227844a9e71e3ef5fc05e99a30645ac0255735f22e9461bf9334d"
 
-  url "https://github.com/MZWNET/pvz_mac_app/releases/download/v0.2.3/PvZ-Portable-0.2.3-arm64.dmg"
+  url "https://github.com/MZWNET/pvz_mac_app/releases/download/v0.2.4/PvZ-Portable-0.2.4-arm64.dmg"
   name "PvZ Portable"
   desc "Community reimplementation of Plants vs. Zombies: GOTY Edition"
   homepage "https://github.com/MZWNET/pvz_mac_app"
