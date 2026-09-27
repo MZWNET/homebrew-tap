@@ -1,9 +1,9 @@
 class ManbosterCanary < Formula
   desc "你的曼波虾头小助手"
   homepage "https://manboster.dev/"
-  url "https://github.com/manboster/manboster/releases/download/canary/manboster_0.2.3-b433a98_darwin_arm64.tar.gz"
-  version "0.2.3,b433a98"
-  sha256 "85522b8f6d7c51fd1988b6e750c73d8795916b0715224771775caf082016f027"
+  url "https://github.com/manboster/manboster/releases/download/canary/manboster_0.2.3-3aac0ad_darwin_arm64.tar.gz"
+  version "0.2.3,3aac0ad"
+  sha256 "1c1d90abe3bddd356be5447319351e1ced43daa1d5b7675acf3e4a89baa525ec"
   license "Apache-2.0"
   head "https://github.com/manboster/manboster.git", branch: "dev"
 
