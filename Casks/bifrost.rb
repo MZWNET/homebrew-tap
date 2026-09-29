@@ -1,6 +1,6 @@
 cask "bifrost" do
-  version "2.1.2"
-  sha256 "480920afb2b67ff733c7c0c2f981430ff0b15d221150891e4a34a6fb4d9855a9"
+  version "2.1.4"
+  sha256 "b9edc029e6f9c7f8a2ec4f9ca66bcf6067fa40f7db876da7e9ceb38705ad2bb2"
 
   url "https://github.com/zacharee/SamloaderKotlin/releases/download/#{version}/bifrost-#{version}-mac-aarch64.zip"
   name "Bifrost"
