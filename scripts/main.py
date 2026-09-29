@@ -156,7 +156,6 @@ def update_sing_box() -> None:
         update_util(
             cask_by_channel[channel],
             ver=source["version"],
-            url=sfm_url,
             sha256=sfm_sha256,
         )
 
@@ -378,7 +377,7 @@ def update_cloudflarewarpspeedtest() -> None:
     update_util("Formula/cloudflarewarpspeedtest", ver=version, url=url, sha256=sha256)
 
 
-# Casks
+# Casks: urls interpolate #{version}, so only bump version and sha256
 def update_bifrost() -> None:
     release: dict[str, Any] = retry_util(
         lambda: requests.get(
@@ -387,7 +386,7 @@ def update_bifrost() -> None:
     )
     url = f"https://github.com/zacharee/SamloaderKotlin/releases/download/{release['tag_name']}/bifrost-{release['tag_name']}-mac-aarch64.zip"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/bifrost", ver=release["tag_name"], url=url, sha256=sha256)
+    update_util("Casks/bifrost", ver=release["tag_name"], sha256=sha256)
 
 
 def update_bewlycat() -> None:
@@ -407,7 +406,7 @@ def update_bewlycat() -> None:
     version = release["tag_name"].replace("bewlycat-v", "")
     url = f"https://github.com/MZWNET/actions/releases/download/bewlycat-v{version}/BewlyCat-v{version}.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/bewlycat", ver=version, url=url, sha256=sha256)
+    update_util("Casks/bewlycat", ver=version, sha256=sha256)
 
 
 def update_xmcl() -> None:
@@ -419,7 +418,7 @@ def update_xmcl() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/Voxelum/x-minecraft-launcher/releases/download/v{version}/xmcl-{version}-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/xmcl", ver=version, url=url, sha256=sha256)
+    update_util("Casks/xmcl", ver=version, sha256=sha256)
 
 
 def update_piliplus() -> None:
@@ -428,22 +427,18 @@ def update_piliplus() -> None:
             "https://api.github.com/repos/bggRGjQaUbCoE/PiliPlus/releases/latest"
         ).json()
     )
-    version: str = ""
-    url: str = ""
+    tag: str = release["tag_name"]
+    build: str = ""
     for asset in release["assets"]:
         if asset["name"].endswith(".dmg") and "macos" in asset["name"]:
-            version = (
-                asset["name"]
-                .replace("PiliPlus_macos_", "")
-                .replace(".dmg", "")
-                .replace("+", ",")
-            )
-            url = asset["browser_download_url"]
+            build = asset["name"].split("+")[-1].replace(".dmg", "")
             break
-    if version == "" or url == "":
+    if build == "":
         raise ValueError("Failed to find the correct asset for PiliPlus.")
+    # Hotfix tags like 2.1.3.1 still name the asset 2.1.3+<build>.
+    url = f"https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/{tag}/PiliPlus_macos_{'.'.join(tag.split('.')[:3])}%2B{build}.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/piliplus", ver=version, url=url, sha256=sha256)
+    update_util("Casks/piliplus", ver=f"{tag},{build}", sha256=sha256)
 
 
 def update_astrbot_desktop() -> None:
@@ -455,7 +450,7 @@ def update_astrbot_desktop() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/AstrBotDevs/AstrBot-desktop/releases/download/v{version}/AstrBot_{version}_macos_arm64.app.tar.gz"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/astrbot-desktop", ver=version, url=url, sha256=sha256)
+    update_util("Casks/astrbot-desktop", ver=version, sha256=sha256)
 
 
 def update_bakamusic() -> None:
@@ -467,7 +462,7 @@ def update_bakamusic() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/Zencok/BakaMusic/releases/download/v{version}/BakaMusic-{version}-darwin-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/bakamusic", ver=version, url=url, sha256=sha256)
+    update_util("Casks/bakamusic", ver=version, sha256=sha256)
 
 
 def update_kelivo() -> None:
@@ -476,22 +471,17 @@ def update_kelivo() -> None:
             "https://api.github.com/repos/Chevey339/kelivo/releases/latest"
         ).json()
     )
-    version: str = ""
-    url: str = ""
+    version = release["tag_name"].replace("v", "")
+    build: str = ""
     for asset in release["assets"]:
         if asset["name"].endswith(".dmg") and "macos" in asset["name"]:
-            version = (
-                asset["name"]
-                .replace("Kelivo_macos_", "")
-                .replace(".dmg", "")
-                .replace("+", ",")
-            )
-            url = asset["browser_download_url"]
+            build = asset["name"].split("+")[-1].replace(".dmg", "")
             break
-    if version == "" or url == "":
+    if build == "":
         raise ValueError("Failed to find the correct asset for Kelivo.")
+    url = f"https://github.com/Chevey339/kelivo/releases/download/v{version}/Kelivo_macos_{version}%2B{build}.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/kelivo", ver=version, url=url, sha256=sha256)
+    update_util("Casks/kelivo", ver=f"{version},{build}", sha256=sha256)
 
 
 def update_websocket_reflector_x() -> None:
@@ -502,9 +492,7 @@ def update_websocket_reflector_x() -> None:
     )
     url = f"https://github.com/XDSEC/WebSocketReflectorX/releases/download/{release['tag_name']}/WebSocketReflectorX-{release['tag_name']}-macos-aarch64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util(
-        "Casks/websocket-reflector-x", ver=release["tag_name"], url=url, sha256=sha256
-    )
+    update_util("Casks/websocket-reflector-x", ver=release["tag_name"], sha256=sha256)
 
 
 def update_memoh() -> None:
@@ -517,7 +505,7 @@ def update_memoh() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/memohai/Memoh/releases/download/v{version}/Memoh-{version}-mac-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/memoh", ver=version, url=url, sha256=sha256)
+    update_util("Casks/memoh", ver=version, sha256=sha256)
 
 
 def update_codex_plus_plus() -> None:
@@ -529,7 +517,7 @@ def update_codex_plus_plus() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v{version}/CodexPlusPlus-{version}-macos-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/codex-plus-plus", ver=version, url=url, sha256=sha256)
+    update_util("Casks/codex-plus-plus", ver=version, sha256=sha256)
 
 
 def update_magic_context_dashboard() -> None:
@@ -551,7 +539,6 @@ def update_magic_context_dashboard() -> None:
     version = release["tag_name"].replace("dashboard-v", "")
     url = f"https://github.com/cortexkit/magic-context/releases/download/dashboard-v{version}/magic-context-dashboard-darwin-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    # The cask interpolates #{version} into its url, so only bump version/sha256.
     update_util("Casks/magic-context-dashboard", ver=version, sha256=sha256)
 
 
@@ -565,7 +552,20 @@ def update_pvz_portable() -> None:
     version = release["tag_name"].replace("v", "")
     url = f"https://github.com/MZWNET/pvz_mac_app/releases/download/v{version}/PvZ-Portable-{version}-arm64.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
-    update_util("Casks/pvz-portable", ver=version, url=url, sha256=sha256)
+    update_util("Casks/pvz-portable", ver=version, sha256=sha256)
+
+
+def update_saymore() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/PraxisGrove/Saymore/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/PraxisGrove/Saymore/releases/download/v{version}/Saymore_{version}_universal.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/saymore", ver=version, sha256=sha256)
 
 
 if __name__ == "__main__":
@@ -582,7 +582,7 @@ if __name__ == "__main__":
         update_samloader_rs,
         update_cloudflarespeedtest,
         update_cloudflarewarpspeedtest,
-        # update_bifrost,
+        update_bifrost,
         update_bewlycat,
         update_xmcl,
         update_piliplus,
@@ -594,6 +594,7 @@ if __name__ == "__main__":
         update_codex_plus_plus,
         update_magic_context_dashboard,
         update_pvz_portable,
+        update_saymore,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
