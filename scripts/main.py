@@ -568,6 +568,19 @@ def update_saymore() -> None:
     update_util("Casks/saymore", ver=version, sha256=sha256)
 
 
+def update_tyranor_mac() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get(
+            "https://api.github.com/repos/Weiss-UltimateSavior/Tyranor-Mac/releases/latest",
+            headers=headers,
+        ).json()
+    )
+    version = release["tag_name"].replace("v", "")
+    url = f"https://github.com/Weiss-UltimateSavior/Tyranor-Mac/releases/download/v{version}/TyranorMac-{version}.dmg"
+    sha256 = retry_util(lambda: github_sha256_util(release, url))
+    update_util("Casks/tyranor-mac", ver=version, sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -595,6 +608,7 @@ if __name__ == "__main__":
         update_magic_context_dashboard,
         update_pvz_portable,
         update_saymore,
+        update_tyranor_mac,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
