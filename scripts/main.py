@@ -515,7 +515,7 @@ def update_codex_plus_plus() -> None:
         ).json()
     )
     version = release["tag_name"].replace("v", "")
-    url = f"https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v{version}/CodexPlusPlus-{version}-macos-arm64.dmg"
+    url = f"https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v{version}/CodexPlusPlus-{version}-macos-universal.dmg"
     sha256 = retry_util(lambda: github_sha256_util(release, url))
     update_util("Casks/codex-plus-plus", ver=version, sha256=sha256)
 
