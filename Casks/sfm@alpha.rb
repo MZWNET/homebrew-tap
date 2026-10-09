@@ -1,6 +1,6 @@
 cask "sfm@alpha" do
-  version "1.15.0-alpha.10"
-  sha256 "2458685879c1df45bb9dc8ac9f7002c769a8bab693d706bc2c25689ef7428546"
+  version "1.15.0-alpha.11"
+  sha256 "6e0ee50177f5254f0827856761cef7292fad38b2be27882142732d876d6626e7"
 
   url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/SFM-#{version}-Apple.pkg"
   name "SFM"
