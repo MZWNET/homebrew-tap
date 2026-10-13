@@ -1,6 +1,6 @@
 cask "bakamusic" do
-  version "1.9.4"
-  sha256 "5fead6d83177ad8fe104f860a15f26662b2552f29ab5ae8b3e2651a977421612"
+  version "1.9.5"
+  sha256 "534e79da1a6e558c01fc11362b96f15e853ccf589e2b5b4c0e247c615b0f13bb"
 
   url "https://github.com/Zencok/BakaMusic/releases/download/v#{version}/BakaMusic-#{version}-darwin-arm64.dmg"
   name "BakaMusic"
