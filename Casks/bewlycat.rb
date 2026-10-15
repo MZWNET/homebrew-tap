@@ -11,6 +11,5 @@ cask "bewlycat" do
 
   postflight_steps do
     run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/BewlyCat.app"]
-    run "/usr/bin/codesign", args: ["-fs", "-", "{{appdir}}/BewlyCat.app"]
   end
 end
