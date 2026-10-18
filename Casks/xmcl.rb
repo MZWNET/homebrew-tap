@@ -1,6 +1,6 @@
 cask "xmcl" do
-  version "0.71.0"
-  sha256 "edc792a0a1b4e1d3dcead828161b4b63616de045a214b33daa94bdfc3d925a29"
+  version "0.72.0"
+  sha256 "e926f14194916d145de10de415effd347b03e81dc86aa2d7d91975beaec07848"
 
   url "https://github.com/Voxelum/x-minecraft-launcher/releases/download/v#{version}/xmcl-#{version}-arm64.dmg"
   name "X Minecraft Launcher"
