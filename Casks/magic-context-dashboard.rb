@@ -1,6 +1,6 @@
 cask "magic-context-dashboard" do
-  version "0.20.3"
-  sha256 "91989199c7a3e17f29c86556acfafeeb1160d40cc78af25c00391acb0f9c3ed4"
+  version "0.20.4"
+  sha256 "089df994f493df8fe86a688defed333e2457b6e2594c36ace6ed09f2eee45b59"
 
   url "https://github.com/cortexkit/magic-context/releases/download/dashboard-v#{version}/magic-context-dashboard-darwin-arm64.dmg"
   name "Magic Context Dashboard"
