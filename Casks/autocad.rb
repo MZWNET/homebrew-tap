@@ -1,6 +1,6 @@
 cask "autocad" do
   version "2027"
-  sha256 ""
+  sha256 "e62faad166e9c2dff1cf336ef3085f494958e160219eee603fd1d01808e4a3ae"
 
   url "https://efulfillment.autodesk.com/NetSWDLD/ODIS/prd/#{version}/ACDMAC/F4809E0C-B1FF-39EA-94B0-4AA6EFA85488/SFX/Autodesk_AutoCAD_#{version}_macOS.dmg"
   name "AutoCAD"
