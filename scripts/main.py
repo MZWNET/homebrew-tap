@@ -581,6 +581,17 @@ def update_tyranor_mac() -> None:
     update_util("Casks/tyranor-mac", ver=version, sha256=sha256)
 
 
+def update_autocad() -> None:
+    # Autodesk has no release feed: bump version and url by hand and clear sha256 to have it refilled.
+    if acquire_util("Casks/autocad", "sha256"):
+        return
+    url = acquire_util("Casks/autocad", "url").replace(
+        "#{version}", acquire_util("Casks/autocad", "version")
+    )
+    sha256 = retry_util(lambda: sha256_util(url))
+    update_util("Casks/autocad", sha256=sha256)
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -609,6 +620,7 @@ if __name__ == "__main__":
         update_pvz_portable,
         update_saymore,
         update_tyranor_mac,
+        update_autocad,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
