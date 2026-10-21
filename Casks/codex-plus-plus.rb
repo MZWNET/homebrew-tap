@@ -1,6 +1,6 @@
 cask "codex-plus-plus" do
-  version "1.10.0"
-  sha256 "d434783f8b2bd694d4aee010ebf3d73f4a181a4deece2cccd63211ee3516f32d"
+  version "1.10.1"
+  sha256 "107ae35766a6dd67d4246c7625d772d5486f6156779a467472d70cbd6d50a415"
 
   url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v#{version}/CodexPlusPlus-#{version}-macos-universal.dmg"
   name "Codex++"
