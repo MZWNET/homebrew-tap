@@ -306,19 +306,6 @@ def update_manboster() -> None:
         update_util(formula_name, ver=info["version"], url=info["url"], sha256=sha256)
 
 
-def update_crossover_trial_reset() -> None:
-    release: dict[str, str] = retry_util(
-        lambda: git_util(
-            acquire_util("Formula/crossover-trial-reset", "head"), "reset_crossover.sh"
-        )
-    )
-    url = f"{acquire_util('Formula/crossover-trial-reset', 'homepage')}/raw/refs/heads/{release['branch']}/reset_crossover.sh"
-    sha256 = retry_util(lambda: sha256_util(url))
-    update_util(
-        "Formula/crossover-trial-reset", ver=release["version"], url=url, sha256=sha256
-    )
-
-
 def update_hydroxide() -> None:
     releases: list[dict[str, Any]] = retry_util(
         lambda: requests.get(
@@ -601,7 +588,6 @@ if __name__ == "__main__":
         update_cliproxyapiplus,
         update_kiro_rs,
         update_manboster,
-        update_crossover_trial_reset,
         update_hydroxide,
         update_samloader_rs,
         update_cloudflarespeedtest,
