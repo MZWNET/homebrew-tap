@@ -579,6 +579,17 @@ def update_autocad() -> None:
     update_util("Casks/autocad", sha256=sha256)
 
 
+def update_yab() -> None:
+    release: dict[str, Any] = retry_util(
+        lambda: requests.get("https://yetanotherbrowser.com/appcast.json").json()
+    )
+    update_util(
+        "Casks/yab",
+        ver=f"{release['version']},{release['build']}",
+        sha256=release["sha256"],
+    )
+
+
 if __name__ == "__main__":
     tasks = [
         update_stable_diffusion_cpp,
@@ -607,6 +618,7 @@ if __name__ == "__main__":
         update_saymore,
         update_tyranor_mac,
         update_autocad,
+        update_yab,
     ]
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(task) for task in tasks]
