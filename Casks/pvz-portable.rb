@@ -1,6 +1,6 @@
 cask "pvz-portable" do
-  version "0.2.5"
-  sha256 "905276ce64c49751ccc704eaca4dd6a5881491b282ad059cb2de0b6225f7f36c"
+  version "0.2.6"
+  sha256 "8d5f95ecb3a57a6b097df8f27d1b08c7a99465dd8dafe4a7e51d16ed924b2937"
 
   url "https://github.com/MZWNET/pvz_mac_app/releases/download/v#{version}/PvZ-Portable-#{version}-arm64.dmg"
   name "PvZ Portable"
