@@ -1,6 +1,6 @@
 cask "bewlycat" do
-  version "1.8.2"
-  sha256 "e177853d726343bc2bbe6601675bb90470d8ec31618e3cce2efd95bb7ac2ec82"
+  version "1.8.3"
+  sha256 "85ee13abeada9e9d1066b3ce26ed9ded48edfa6cce97eada93bb38dc5da10438"
 
   url "https://github.com/MZWNET/actions/releases/download/bewlycat-v#{version}/BewlyCat-v#{version}.dmg"
   name "BewlyCat"
