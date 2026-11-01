@@ -1,6 +1,6 @@
 cask "astrbot-desktop" do
-  version "4.29.3"
-  sha256 "ee3d319e4c33c85edc00aa6f2cd43fad684df45fe178409136dd0587f4538068"
+  version "4.29.4"
+  sha256 "119b90b643d05ebda407dafc01be1075a6f5c411bca6689422399ea01d529a4a"
 
   url "https://github.com/AstrBotDevs/AstrBot-desktop/releases/download/v#{version}/AstrBot_#{version}_macos_arm64.app.tar.gz"
   name "AstrBot Desktop"
