@@ -1,6 +1,6 @@
 cask "kelivo" do
-  version "1.3.3,83-NoImpeller"
-  sha256 "5389f06c933d56b9c1e7ef81c477ce61c4ef6378d2e06015553364ed6926a841"
+  version "1.3.4,84-NoImpeller"
+  sha256 "c834e59f6e63e6d69dcbad69d2b0f6bae7a2a3a58bb5b5c5ec7b9175a12f2580"
 
   url "https://github.com/Chevey339/kelivo/releases/download/v#{version.csv.first}/Kelivo_macos_#{version.csv.first}%2B#{version.csv.second}.dmg"
   name "Kelivo"
