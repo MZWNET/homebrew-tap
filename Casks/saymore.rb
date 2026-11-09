@@ -1,6 +1,6 @@
 cask "saymore" do
-  version "0.2.2"
-  sha256 "277f04604b923318e93f59fdf65d2328b96a9bc87895109a6d7d7ed4bd8aed99"
+  version "0.2.4"
+  sha256 "a2dd60da1aeab70da8c944ee33835347561a0107cd4e50562be269665f952187"
 
   url "https://github.com/PraxisGrove/Saymore/releases/download/v#{version}/Saymore_#{version}_universal.dmg"
   name "Saymore"
