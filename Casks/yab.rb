@@ -1,6 +1,6 @@
 cask "yab" do
-  version "0.47.6,202611091715"
-  sha256 "3ffe720e475b464f46629afd367674c30639c53a8443214b4a30911601b8db19"
+  version "0.47.10,202611102135"
+  sha256 "407080a9654fdbe470ccd8da2028f3b1776db21634725fe6083a1e70c33e6c67"
 
   url "https://8hauzhgbhxiipn9a.public.blob.vercel-storage.com/releases/yab-#{version.csv.first}-#{version.csv.second}.zip"
   name "Yab"
